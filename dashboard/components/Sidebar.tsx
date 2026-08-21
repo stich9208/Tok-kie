@@ -67,9 +67,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
       >
         <div className="space-y-6">
           {/* Brand Logo & Collapse / Close Toggle */}
-          <div className="flex items-center justify-between px-1.5 pt-1">
+          <div className="flex items-center justify-between px-1.5 pt-6 md:pt-7 app-drag">
             <div
-              className="flex items-center gap-3 cursor-pointer overflow-hidden"
+              className="flex items-center gap-3 cursor-pointer overflow-hidden app-no-drag"
               onClick={() => handleTabClick('dashboard')}
             >
               <div className="w-9 h-9 rounded-2xl bg-surface-card border border-surface-border flex items-center justify-center flex-shrink-0 shadow-sm">
@@ -94,7 +94,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <button
               onClick={isMobileOpen ? onCloseMobile : onToggleCollapse}
               title={isMobileOpen ? '닫기' : isCollapsed ? '사이드바 펼치기' : '사이드바 접기'}
-              className="p-1.5 rounded-xl bg-surface-card border border-surface-border text-text-secondary hover:text-text-primary transition-colors flex-shrink-0"
+              className="p-1.5 rounded-xl bg-surface-card border border-surface-border text-text-secondary hover:text-text-primary transition-colors flex-shrink-0 app-no-drag"
             >
               {isMobileOpen ? (
                 <ChevronLeft className="w-4 h-4" />
@@ -107,7 +107,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
 
           {/* Navigation Items */}
-          <nav className="space-y-1.5 pt-2">
+          <nav className="space-y-1.5 pt-2 app-no-drag">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = currentTab === item.id;

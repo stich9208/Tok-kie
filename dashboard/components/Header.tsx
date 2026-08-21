@@ -78,9 +78,9 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-30 bg-canvas/90 backdrop-blur-md border-b border-surface-border px-4 sm:px-6 lg:px-8 py-3 transition-all">
+    <header className="sticky top-0 z-30 bg-canvas/90 backdrop-blur-md border-b border-surface-border px-4 sm:px-6 lg:px-8 py-3 transition-all app-drag select-none">
       {/* 1. Mobile Top Row (Hamburger + Logo + Theme + Profile) */}
-      <div className="flex md:hidden items-center justify-between gap-3 pb-2.5">
+      <div className="flex md:hidden items-center justify-between gap-3 pb-2.5 app-no-drag">
         <div className="flex items-center gap-2.5">
           <button
             onClick={onToggleMobileMenu}
@@ -122,7 +122,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* 2. Main Flex Container (Desktop 1-row, Mobile multi-row) */}
       <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5 md:gap-4">
         {/* Search Bar */}
-        <div className="w-full md:flex-1 md:max-w-md">
+        <div className="w-full md:flex-1 md:max-w-md app-no-drag">
           <div className="relative">
             <Search className="w-3.5 h-3.5 text-text-secondary absolute left-3.5 top-2.5" />
             <input
@@ -135,8 +135,8 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Filter Strip: Mobile 3-column equal grid (No horizontal scroll), Desktop flex-end */}
-        <div className="grid grid-cols-3 gap-1.5 sm:gap-2 w-full md:flex md:w-auto md:items-center md:justify-end flex-shrink-0">
+        {/* Filter Strip: Mobile 3-column equal grid, Desktop flex-end */}
+        <div className="grid grid-cols-3 gap-1.5 sm:gap-2 w-full md:flex md:w-auto md:items-center md:justify-end flex-shrink-0 app-no-drag">
           {/* Live Status Badge (Desktop Only) */}
           <div className="hidden xl:flex items-center gap-1.5 px-3 py-1 bg-surface-card border border-surface-border rounded-full text-[11px] font-semibold text-mint-accent flex-shrink-0">
             <span className="w-1.5 h-1.5 rounded-full bg-mint-accent animate-pulse" />
@@ -197,7 +197,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Desktop Right Controls (Cloud Sync, Mobile Sync, Theme, Notifications, Profile) */}
-          <div className="hidden md:flex items-center gap-2 pl-1 flex-shrink-0">
+          <div className="hidden md:flex items-center gap-2 pl-1 flex-shrink-0 app-no-drag">
             <button
               onClick={() => setIsMobilePairingOpen(true)}
               title="모바일 1초 QR 연동"

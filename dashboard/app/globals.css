@@ -38,9 +38,19 @@
   --lavender-bg: rgba(230, 215, 255, 0.15);
   --amber-accent: #fbbf24;
   --amber-bg: rgba(251, 191, 36, 0.15);
-  --pink-accent: #ffd8e4;
-  --pink-bg: rgba(255, 216, 228, 0.15);
+  --pink-accent: #f472b6;
+  --pink-bg: rgba(244, 114, 182, 0.15);
 }
+
+/* Electron Window Drag Regions */
+.app-drag {
+  -webkit-app-region: drag;
+}
+
+.app-no-drag {
+  -webkit-app-region: no-drag;
+}
+
 
 body {
   background-color: var(--canvas);
