@@ -110,7 +110,7 @@ export default function DashboardPage() {
       />
 
       {/* 2. Main Canvas */}
-      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto overflow-x-hidden transition-all duration-300 custom-scrollbar">
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden transition-all duration-300">
         {/* Sticky Header with Global Controls & Light/Dark Theme Switcher */}
         <Header
           selectedDevice={selectedDevice}
@@ -127,8 +127,8 @@ export default function DashboardPage() {
           onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         />
 
-        {/* Content Area */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-4 sm:space-y-6">
+        {/* Content Area (Scrollbar is isolated strictly inside this area below Header) */}
+        <main className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-4 sm:space-y-6">
           {/* Section 1: Dashboard (Overview) */}
           {currentTab === 'dashboard' && (
             <div className="space-y-4 sm:space-y-5 animate-in fade-in duration-200">
