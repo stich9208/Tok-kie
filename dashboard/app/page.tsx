@@ -97,7 +97,7 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="min-h-screen bg-canvas text-text-primary flex">
+    <div className="h-screen bg-canvas text-text-primary flex overflow-hidden">
       {/* 1. Left Collapsible Sidebar (Desktop sticky, Mobile drawer) */}
       <Sidebar
         currentTab={currentTab}
@@ -110,7 +110,7 @@ export default function DashboardPage() {
       />
 
       {/* 2. Main Canvas */}
-      <div className="flex-1 flex flex-col min-w-0 transition-all duration-300">
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto transition-all duration-300">
         {/* Sticky Header with Global Controls & Light/Dark Theme Switcher */}
         <Header
           selectedDevice={selectedDevice}
@@ -176,17 +176,17 @@ export default function DashboardPage() {
 
           {/* Section 3: Analytics (기간별 분석 리포트) */}
           {currentTab === 'analytics' && (
-            <div className="space-y-8 animate-in fade-in duration-200">
+            <div className="space-y-4 sm:space-y-5 animate-in fade-in duration-200">
               <div>
-                <h1 className="font-serif font-bold text-3xl sm:text-4xl text-text-primary tracking-tight">
+                <h1 className="font-serif font-bold text-2xl sm:text-3xl text-text-primary tracking-tight">
                   Comprehensive Analytics
                 </h1>
-                <p className="text-xs sm:text-sm text-text-secondary mt-1">
+                <p className="text-xs text-text-secondary">
                   연간, 월별, 일자별 토큰 소비량 및 환산 구독 가치($) 심층 분석
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
                 <MonthlyChart data={monthlyStats} />
                 <DailyChart data={dailyStats} />
               </div>
@@ -197,24 +197,17 @@ export default function DashboardPage() {
 
           {/* Section 4: Agents (에이전트 현황) */}
           {currentTab === 'agents' && (
-            <div className="space-y-8 animate-in fade-in duration-200">
+            <div className="space-y-4 sm:space-y-5 animate-in fade-in duration-200">
               <div>
-                <h1 className="font-serif font-bold text-3xl sm:text-4xl text-text-primary tracking-tight">
+                <h1 className="font-serif font-bold text-2xl sm:text-3xl text-text-primary tracking-tight">
                   Agent Ecosystem & Devices
                 </h1>
-                <p className="text-xs sm:text-sm text-text-secondary mt-1">
+                <p className="text-xs text-text-secondary">
                   Codex, Antigravity, Claude Code 에이전트 및 Mac 디바이스별 사용 점유율
                 </p>
               </div>
 
               <DeviceBreakdown sessions={filteredSessions} />
-
-              <SessionTable
-                sessions={filteredSessions}
-                onSelectSession={setSelectedSession}
-                selectedAgent={selectedAgent}
-                onSelectAgent={setSelectedAgent}
-              />
             </div>
           )}
         </main>

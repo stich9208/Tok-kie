@@ -32,7 +32,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({
   const [localAgent, setLocalAgent] = useState<string>(selectedAgent);
   const [showFilterBar, setShowFilterBar] = useState(false);
   const [page, setPage] = useState(1);
-  const pageSize = viewType === 'table' ? 8 : 6;
+  const pageSize = viewType === 'table' ? 6 : 4;
 
   const currentAgent = onSelectAgent ? selectedAgent : localAgent;
   const handleAgentChange = (agent: string) => {
