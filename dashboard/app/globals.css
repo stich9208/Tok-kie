@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --canvas: #f8f7f5;
+  --surface-nav: #f0eeea;
+  --surface-card: #ffffff;
+  --surface-card-hover: #f5f3f0;
+  --surface-container: #eae7e3;
+  --surface-border: #dedad4;
+  --surface-border-light: #c8c4be;
+  --text-primary: #191818;
+  --text-secondary: #6e6b6b;
+  --mint-accent: #15803d;
+  --mint-bg: #dcfce7;
+  --lavender-accent: #7c3aed;
+  --lavender-bg: #ede9fe;
+  --amber-accent: #b45309;
+  --amber-bg: #fef3c7;
+  --pink-accent: #db2777;
+  --pink-bg: #fce7f3;
+}
+
+.dark {
+  --canvas: #131313;
+  --surface-nav: #0e0e0e;
+  --surface-card: #1c1b1c;
+  --surface-card-hover: #252424;
+  --surface-container: #201f1f;
+  --surface-border: #313030;
+  --surface-border-light: #45474a;
+  --text-primary: #f4f0ef;
+  --text-secondary: #858384;
+  --mint-accent: #a7d7c5;
+  --mint-bg: rgba(167, 215, 197, 0.15);
+  --lavender-accent: #e6d7ff;
+  --lavender-bg: rgba(230, 215, 255, 0.15);
+  --amber-accent: #fbbf24;
+  --amber-bg: rgba(251, 191, 36, 0.15);
+  --pink-accent: #ffd8e4;
+  --pink-bg: rgba(255, 216, 228, 0.15);
+}
+
+body {
+  background-color: var(--canvas);
+  color: var(--text-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}

@@ -1,0 +1,48 @@
+# Python & Virtual Environments
+.venv/
+env/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# Node.js & Next.js
+node_modules/
+dashboard/node_modules/
+dashboard/.next/
+dashboard/out/
+.next/
+out/
+
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+dashboard/.env
+dashboard/.env.*
+!dashboard/.env.example
+
+# Local SQLite & Databases
+.agent-token-tracker/
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+*.log
+
+# IDE & Operating System
+.DS_Store
+**/.DS_Store
+.idea/
+.vscode/
+Thumbs.db
+
+# Vercel Cache
+.vercel/
