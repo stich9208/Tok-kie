@@ -2,6 +2,8 @@
 
 A lightweight, local-first dashboard to track token usage and estimated API costs from local AI coding agents (**Claude Code**, **OpenAI Codex**, and **Google Antigravity**).
 
+[English](README.md) | [한국어](README.ko.md)
+
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Python](https://img.shields.io/badge/Python-3.9+-yellow?logo=python)](https://python.org/)
