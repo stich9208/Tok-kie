@@ -32,6 +32,8 @@ interface HeaderProps {
   searchTerm: string;
   onSearchChange: (query: string) => void;
   onToggleMobileMenu?: () => void;
+  onOpenSupabase?: () => void;
+  onOpenMobilePairing?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -47,9 +49,9 @@ export const Header: React.FC<HeaderProps> = ({
   searchTerm,
   onSearchChange,
   onToggleMobileMenu,
+  onOpenSupabase,
+  onOpenMobilePairing,
 }) => {
-  const [isSupabaseOpen, setIsSupabaseOpen] = useState(false);
-  const [isMobilePairingOpen, setIsMobilePairingOpen] = useState(false);
   const [isCloudConfigured, setIsCloudConfigured] = useState(false);
 
   useEffect(() => {
@@ -99,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setIsSupabaseOpen(true)}
+            onClick={onOpenSupabase}
             title="Supabase 클라우드 설정"
             className={`p-1.5 rounded-full border text-xs flex items-center justify-center transition-all ${
               isCloudConfigured
@@ -199,7 +201,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Desktop Right Controls (Cloud Sync, Mobile Sync, Theme, Notifications, Profile) */}
           <div className="hidden md:flex items-center gap-1.5 lg:gap-2 pl-1 flex-shrink-0 app-no-drag">
             <button
-              onClick={() => setIsMobilePairingOpen(true)}
+              onClick={onOpenMobilePairing}
               title="모바일 1초 QR 연동"
               className="p-1.5 lg:px-3 lg:py-1.5 rounded-full border border-surface-border bg-surface-card text-text-secondary hover:text-text-primary hover:border-lavender-accent text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
             >
@@ -208,7 +210,7 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
 
             <button
-              onClick={() => setIsSupabaseOpen(true)}
+              onClick={onOpenSupabase}
               title={isCloudConfigured ? 'Supabase 클라우드 연결됨' : 'Supabase 클라우드 연결 설정'}
               className={`p-1.5 lg:px-3 lg:py-1.5 rounded-full border text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm ${
                 isCloudConfigured
@@ -229,16 +231,6 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
       </div>
-
-      <SupabaseModal
-        isOpen={isSupabaseOpen}
-        onClose={() => setIsSupabaseOpen(false)}
-      />
-
-      <MobilePairingModal
-        isOpen={isMobilePairingOpen}
-        onClose={() => setIsMobilePairingOpen(false)}
-      />
     </header>
   );
 };

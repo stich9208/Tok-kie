@@ -12,6 +12,8 @@ import { DailyChart } from '../components/DailyChart';
 import { DeviceBreakdown } from '../components/DeviceBreakdown';
 import { SessionTable } from '../components/SessionTable';
 import { StepTimelineModal } from '../components/StepTimelineModal';
+import { SupabaseModal } from '../components/SupabaseModal';
+import { MobilePairingModal } from '../components/MobilePairingModal';
 
 export default function DashboardPage() {
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -19,6 +21,8 @@ export default function DashboardPage() {
   const [currentTab, setCurrentTab] = useState('dashboard');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSupabaseOpen, setIsSupabaseOpen] = useState(false);
+  const [isMobilePairingOpen, setIsMobilePairingOpen] = useState(false);
   const [selectedDevice, setSelectedDevice] = useState('All');
   const [selectedAccount, setSelectedAccount] = useState('All');
   const [selectedAgent, setSelectedAgent] = useState('All');
@@ -125,6 +129,8 @@ export default function DashboardPage() {
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
           onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          onOpenSupabase={() => setIsSupabaseOpen(true)}
+          onOpenMobilePairing={() => setIsMobilePairingOpen(true)}
         />
 
         {/* Content Area (Scrollbar is isolated strictly inside this area below Header) */}
@@ -220,6 +226,17 @@ export default function DashboardPage() {
           onClose={() => setSelectedSession(null)}
         />
       )}
+
+      {/* Cloud & Mobile Settings Modals */}
+      <SupabaseModal
+        isOpen={isSupabaseOpen}
+        onClose={() => setIsSupabaseOpen(false)}
+      />
+
+      <MobilePairingModal
+        isOpen={isMobilePairingOpen}
+        onClose={() => setIsMobilePairingOpen(false)}
+      />
     </div>
   );
 }

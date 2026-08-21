@@ -71,7 +71,7 @@ export const MobilePairingModal: React.FC<MobilePairingModalProps> = ({ isOpen, 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 sm:p-6 pt-14 sm:pt-18 bg-black/65 backdrop-blur-sm animate-in fade-in duration-200 app-no-drag select-text overflow-y-auto custom-scrollbar">
+    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 sm:p-6 pt-20 sm:pt-28 bg-black/65 backdrop-blur-sm animate-in fade-in duration-200 app-no-drag select-text overflow-y-auto custom-scrollbar">
       <div className="bg-surface-nav border border-surface-border w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 mb-8">
         {/* Modal Header */}
         <div className="px-6 py-4 border-b border-surface-border flex items-center justify-between bg-surface-card/40 flex-shrink-0">
