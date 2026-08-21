@@ -17,6 +17,8 @@ CREATE TABLE IF NOT EXISTS public.sessions (
     total_completion_tokens BIGINT DEFAULT 0,
     total_tokens BIGINT DEFAULT 0,
     estimated_cost_usd NUMERIC(10, 6) DEFAULT 0.0,
+    status TEXT DEFAULT 'completed',                 -- 'completed', 'interrupted', 'running'
+    is_interrupted BOOLEAN DEFAULT FALSE,
     is_archived BOOLEAN DEFAULT FALSE,               -- 로컬 삭제 시 아카이브 여부
     metadata JSONB DEFAULT '{}'::jsonb               -- 추가 메타데이터
 );
@@ -29,6 +31,12 @@ BEGIN
     END IF;
     IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='sessions' AND column_name='account_type') THEN
         ALTER TABLE public.sessions ADD COLUMN account_type TEXT DEFAULT 'personal';
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='sessions' AND column_name='status') THEN
+        ALTER TABLE public.sessions ADD COLUMN status TEXT DEFAULT 'completed';
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='sessions' AND column_name='is_interrupted') THEN
+        ALTER TABLE public.sessions ADD COLUMN is_interrupted BOOLEAN DEFAULT FALSE;
     END IF;
 END $$;
 
