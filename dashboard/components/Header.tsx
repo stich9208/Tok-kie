@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Search,
   Bell,
@@ -10,9 +10,12 @@ import {
   Sparkles,
   Bot,
   User,
-  Menu
+  Menu,
+  Cloud,
+  Database
 } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
+import { SupabaseModal } from './SupabaseModal';
 
 interface HeaderProps {
   selectedDevice: string;
@@ -43,6 +46,18 @@ export const Header: React.FC<HeaderProps> = ({
   onSearchChange,
   onToggleMobileMenu,
 }) => {
+  const [isSupabaseOpen, setIsSupabaseOpen] = useState(false);
+  const [isCloudConfigured, setIsCloudConfigured] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/config')
+      .then(res => res.json())
+      .then(data => {
+        setIsCloudConfigured(!!data.configured);
+      })
+      .catch(() => {});
+  }, []);
+
   const DEFAULT_AGENTS = ['antigravity', 'codex', 'claude_code'];
   const allAgents = Array.from(new Set([...DEFAULT_AGENTS, ...agentList]));
 
@@ -80,6 +95,17 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         <div className="flex items-center gap-2">
+          <button
+            onClick={() => setIsSupabaseOpen(true)}
+            title="Supabase 클라우드 설정"
+            className={`p-1.5 rounded-full border text-xs flex items-center justify-center transition-all ${
+              isCloudConfigured
+                ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                : 'bg-surface-card border-surface-border text-lavender-accent'
+            }`}
+          >
+            <Cloud className="w-3.5 h-3.5" />
+          </button>
           <ThemeToggle />
           <div
             title={selectedAccount && selectedAccount !== 'All' ? selectedAccount : 'User Profile'}
@@ -167,15 +193,21 @@ export const Header: React.FC<HeaderProps> = ({
             <Bot className="w-3 h-3 text-text-secondary absolute right-2 sm:right-2.5 top-2.5 pointer-events-none" />
           </div>
 
-          {/* Desktop Right Controls (Theme, Notifications, Profile) */}
+          {/* Desktop Right Controls (Cloud Sync, Theme, Notifications, Profile) */}
           <div className="hidden md:flex items-center gap-2 pl-1 flex-shrink-0">
-            <ThemeToggle />
             <button
-              title="알림"
-              className="p-2 rounded-full bg-surface-card border border-surface-border text-text-secondary hover:text-text-primary transition-colors"
+              onClick={() => setIsSupabaseOpen(true)}
+              title={isCloudConfigured ? 'Supabase 클라우드 연결됨' : 'Supabase 클라우드 연결 설정'}
+              className={`px-3 py-1.5 rounded-full border text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm ${
+                isCloudConfigured
+                  ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20'
+                  : 'bg-surface-card border-surface-border text-lavender-accent hover:border-lavender-accent'
+              }`}
             >
-              <Bell className="w-4 h-4" />
+              <Cloud className="w-3.5 h-3.5" />
+              <span>{isCloudConfigured ? '클라우드 연동됨' : 'Supabase 연동'}</span>
             </button>
+            <ThemeToggle />
             <div
               title={selectedAccount && selectedAccount !== 'All' ? selectedAccount : 'User Profile'}
               className="w-8 h-8 rounded-full bg-gradient-to-tr from-lavender-accent to-pink-accent flex items-center justify-center text-surface-nav font-bold text-xs shadow-sm cursor-pointer uppercase"
@@ -185,6 +217,11 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
       </div>
+
+      <SupabaseModal
+        isOpen={isSupabaseOpen}
+        onClose={() => setIsSupabaseOpen(false)}
+      />
     </header>
   );
 };

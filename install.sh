@@ -56,6 +56,14 @@ read -p "Supabase Anon/Service Key: " SB_KEY
   ${SB_URL:+--supabase-url "$SB_URL"} \
   ${SB_KEY:+--supabase-key "$SB_KEY"}
 
+# Generate dashboard/.env.local if Supabase info provided
+if [ -n "$SB_URL" ] && [ -n "$SB_KEY" ]; then
+    cat <<EOF > "$SCRIPT_DIR/dashboard/.env.local"
+NEXT_PUBLIC_SUPABASE_URL=$SB_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY=$SB_KEY
+EOF
+fi
+
 # 4. Perform Initial Log Scan
 echo ""
 echo "🔍 [4/4] 기존 코딩 에이전트 로그 초기 스캔 진행 중..."

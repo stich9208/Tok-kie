@@ -67,11 +67,12 @@ chmod +x install.sh start_dashboard.sh uninstall.sh
    - Supabase의 **SQL Editor**를 열고, 이 저장소의 `supabase/schema.sql` 내용을 붙여넣은 뒤 **Run**을 실행합니다.
    - **Project Settings > API**에서 `Project URL`과 `anon key`를 복사합니다.
 
-2. **로컬 수집기에 Supabase 연결**:
+2. **Tok-kie에 Supabase 연결**:
+   원클릭 대화형 스크립트를 실행합니다:
    ```bash
-   python3 collector/main.py config --supabase-url "https://your-id.supabase.co" --supabase-key "your-anon-key"
-   python3 collector/main.py scan
+   ./setup_supabase.sh
    ```
+   *(또는 웹 대시보드 우측 상단의 **[Supabase 연동]** 버튼을 눌러 브라우저에서 바로 입력하셔도 됩니다)*
 
 3. **Vercel에 대시보드 배포**:
    - GitHub에 저장소를 올리고 [Vercel](https://vercel.com)에서 Import합니다.

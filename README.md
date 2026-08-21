@@ -67,11 +67,12 @@ If you want to view your token usage on your phone or from another laptop:
    - In Supabase SQL Editor, run the script in `supabase/schema.sql`.
    - Copy your `Project URL` and `anon key` from **Project Settings > API**.
 
-2. **Configure your local collector**:
+2. **Connect Supabase to Tok-kie**:
+   Run the interactive setup script:
    ```bash
-   python3 collector/main.py config --supabase-url "https://your-id.supabase.co" --supabase-key "your-anon-key"
-   python3 collector/main.py scan
+   ./setup_supabase.sh
    ```
+   *(Or simply click the **"Supabase 연동"** button inside the web dashboard to configure via UI)*
 
 3. **Deploy the dashboard to Vercel**:
    - Push your repo to GitHub and import it on [Vercel](https://vercel.com).
