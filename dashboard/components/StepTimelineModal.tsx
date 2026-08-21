@@ -166,8 +166,8 @@ export const StepTimelineModal: React.FC<StepTimelineModalProps> = ({ session, o
   const PASTEL_PALETTE = ['#a7d7c5', '#ffd8e4', '#e6d7ff', '#fbbf24', '#c9c5c6', '#909194'];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="bg-surface-card border border-surface-border rounded-3xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-start justify-center p-3 sm:p-6 pt-12 sm:pt-16 bg-black/80 backdrop-blur-md animate-in fade-in duration-200 app-no-drag select-text overflow-y-auto custom-scrollbar">
+      <div className="bg-surface-card border border-surface-border rounded-3xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden mb-8">
         
         {/* ========================================================== */}
         {/* 1. Modal Header matching Image 1 */}
