@@ -163,16 +163,6 @@ export default function DashboardPage() {
                 <DailyChart data={dailyStats} />
                 <DeviceBreakdown sessions={filteredSessions} />
               </div>
-
-              {/* Bento Row 4: Session History Preview */}
-              <div className="pt-2">
-                <SessionTable
-                  sessions={filteredSessions}
-                  onSelectSession={setSelectedSession}
-                  selectedAgent={selectedAgent}
-                  onSelectAgent={setSelectedAgent}
-                />
-              </div>
             </div>
           )}
 
