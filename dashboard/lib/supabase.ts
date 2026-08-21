@@ -1,12 +1,61 @@
 import { createClient } from '@supabase/supabase-js';
 import { Session, Step, DailyStat, MonthlyStat, YearlyStat } from './types';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+// Helper to extract credentials from URL Hash (#sync=...), LocalStorage, or Environment Variables
+export function getSupabaseCredentials(): { url: string; key: string } {
+  if (typeof window === 'undefined') {
+    return {
+      url: process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+      key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
+    };
+  }
 
-export const supabase = (supabaseUrl && supabaseAnonKey)
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null;
+  // 1. Check URL Hash for #sync=<base64> (QR Code Pairing)
+  if (window.location.hash && window.location.hash.includes('sync=')) {
+    try {
+      const match = window.location.hash.match(/sync=([^&]+)/);
+      if (match && match[1]) {
+        const decoded = JSON.parse(decodeURIComponent(escape(atob(match[1]))));
+        if (decoded.url && decoded.key) {
+          localStorage.setItem('tokkie_supabase_url', decoded.url);
+          localStorage.setItem('tokkie_supabase_key', decoded.key);
+          // Clean up address bar URL
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+          return { url: decoded.url, key: decoded.key };
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to parse #sync hash from URL:', e);
+    }
+  }
+
+  // 2. Check localStorage
+  const savedUrl = localStorage.getItem('tokkie_supabase_url');
+  const savedKey = localStorage.getItem('tokkie_supabase_key');
+  if (savedUrl && savedKey) {
+    return { url: savedUrl, key: savedKey };
+  }
+
+  // 3. Fallback to process.env
+  return {
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
+  };
+}
+
+export function getSupabaseClient() {
+  const creds = getSupabaseCredentials();
+  if (creds.url && creds.key) {
+    return createClient(creds.url, creds.key);
+  }
+  return null;
+}
+
+export const supabase = (typeof window !== 'undefined')
+  ? getSupabaseClient()
+  : ((process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+      ? createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+      : null);
 
 export function safeIsoDate(iso: any): string {
   if (!iso) return new Date().toISOString();

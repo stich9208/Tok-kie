@@ -12,10 +12,12 @@ import {
   User,
   Menu,
   Cloud,
-  Database
+  Database,
+  Smartphone
 } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { SupabaseModal } from './SupabaseModal';
+import { MobilePairingModal } from './MobilePairingModal';
 
 interface HeaderProps {
   selectedDevice: string;
@@ -47,6 +49,7 @@ export const Header: React.FC<HeaderProps> = ({
   onToggleMobileMenu,
 }) => {
   const [isSupabaseOpen, setIsSupabaseOpen] = useState(false);
+  const [isMobilePairingOpen, setIsMobilePairingOpen] = useState(false);
   const [isCloudConfigured, setIsCloudConfigured] = useState(false);
 
   useEffect(() => {
@@ -193,8 +196,17 @@ export const Header: React.FC<HeaderProps> = ({
             <Bot className="w-3 h-3 text-text-secondary absolute right-2 sm:right-2.5 top-2.5 pointer-events-none" />
           </div>
 
-          {/* Desktop Right Controls (Cloud Sync, Theme, Notifications, Profile) */}
+          {/* Desktop Right Controls (Cloud Sync, Mobile Sync, Theme, Notifications, Profile) */}
           <div className="hidden md:flex items-center gap-2 pl-1 flex-shrink-0">
+            <button
+              onClick={() => setIsMobilePairingOpen(true)}
+              title="모바일 1초 QR 연동"
+              className="px-3 py-1.5 rounded-full border border-surface-border bg-surface-card text-text-secondary hover:text-text-primary hover:border-lavender-accent text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
+            >
+              <Smartphone className="w-3.5 h-3.5 text-lavender-accent" />
+              <span>모바일 연동</span>
+            </button>
+
             <button
               onClick={() => setIsSupabaseOpen(true)}
               title={isCloudConfigured ? 'Supabase 클라우드 연결됨' : 'Supabase 클라우드 연결 설정'}
@@ -221,6 +233,11 @@ export const Header: React.FC<HeaderProps> = ({
       <SupabaseModal
         isOpen={isSupabaseOpen}
         onClose={() => setIsSupabaseOpen(false)}
+      />
+
+      <MobilePairingModal
+        isOpen={isMobilePairingOpen}
+        onClose={() => setIsMobilePairingOpen(false)}
       />
     </header>
   );

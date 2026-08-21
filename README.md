@@ -29,6 +29,8 @@ Tok-kie runs a tiny background watcher on your Mac that parses local log files a
   - **Claude Code**: Parses `~/.claude/projects/*/*.jsonl` session files, extracts clean titles, separates tool outputs from human prompts, and filters out synthetic system messages.
   - **OpenAI Codex**: Parses `~/.codex/state_5.sqlite` and rollout jsonl files, groups subagents under their parent conversations, and detects natural language questions from code snippets.
   - **Google Antigravity**: Parses `transcript.jsonl` files and step hierarchies.
+- **macOS Menu Bar Desktop App**: Runs natively in your Mac menu bar tray (`🐰 Tok-kie`) with global hotkey (`Cmd+Shift+T`) and auto-managed collector daemon.
+- **Zero-Knowledge Mobile QR Pairing**: Instant 1-second pairing with your iPhone via QR code — no signups, $0 server cost, and direct client-to-DB sync.
 - **Interruption Detection**: Detects user cancellations (`[Request interrupted by user]`, `CANCELLED`) and marks sessions with an `Interrupted` badge so you can distinguish incomplete runs.
 - **Task Timeline View**: Click any conversation to inspect prompt-by-prompt token consumption, tool executions, and step receipts.
 - **Multi-Account Auto-Detection**: Automatically detects git repository configurations and user emails to separate and aggregate usage across multiple accounts without manual tagging.
@@ -39,19 +41,23 @@ Tok-kie runs a tiny background watcher on your Mac that parses local log files a
 
 ## Quick Start (Local Setup)
 
-### 1. Install and Start Background Collector
+### 1. Run as Native macOS Desktop App (Electron)
 ```bash
 git clone https://github.com/stich9208/Tok-kie.git
 cd Tok-kie
 
+npm install
+npm run dev
+```
+* The persistent **Tok-kie 🐰** menu bar icon will appear in the macOS top bar, and the collector daemon will start automatically!
+* Press **`Cmd + Shift + T`** anywhere to toggle the dashboard window.
+
+---
+
+### 2. Run in Terminal & Web Browser
+```bash
 chmod +x install.sh start_dashboard.sh uninstall.sh
 ./install.sh
-```
-
-`install.sh` creates a Python virtual environment, installs dependencies, runs an initial scan of your existing logs, and registers a macOS `launchd` background service that starts automatically when you log in.
-
-### 2. Open the Dashboard
-```bash
 ./start_dashboard.sh
 ```
 Open **[http://localhost:3000](http://localhost:3000)** in your browser.

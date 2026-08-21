@@ -29,6 +29,8 @@
   - **Claude Code**: `~/.claude/projects/*/*.jsonl` 세션 파일 파싱, 실제 대화 제목(`aiTitle`) 추출, 도구 실행 결과와 사용자 입력 분리, `<synthetic>` 에러 메시지 필터링.
   - **OpenAI Codex**: `~/.codex/state_5.sqlite` 및 Rollout 아카이브 파싱, 서브에이전트를 부모 대화에 계층적으로 연결, 코드 스니펫에서 자연어 질문 스마트 감지.
   - **Google Antigravity**: `transcript.jsonl` 파일 및 작업 계층 구조 파싱.
+- **macOS 메뉴바 데스크탑 앱**: 맥북 상단 메뉴바에 귀여운 토끼 트레이(`🐰 Tok-kie`)로 상주하며, 글로벌 단축키(`Cmd+Shift+T`) 및 백그라운드 수집기 데몬을 자동 관리합니다.
+- **모바일 1초 QR 페어링**: 회원가입/서버 비용 0원으로 화면의 QR 코드를 아이폰 카메라로 비추면 즉시 1초 만에 모바일 뷰어와 동기화됩니다.
 - **중단(Interrupted) 세션 감지**: 사용자가 `Ctrl+C` 등으로 취소한 세션을 자동으로 감지하여 `🛑 중단됨` 뱃지를 달아 미완료 세션과 정상 완료 세션을 명확히 구분합니다.
 - **작업 타임라인 뷰**: 대화 세션을 클릭하면 프롬프트 ➔ 도구 실행 ➔ AI 답변 단계별 토큰 소모량과 영수증을 수직 타임라인 체인으로 확인할 수 있습니다.
 - **다중 계정(이메일) 자동 감지 및 분리**: 프로젝트별 Git 저장소 설정과 사용된 이메일 계정을 자동으로 감지하여, 여러 계정의 토큰 사용량을 수동 태깅 없이 분리하여 필터링 및 집계합니다.
@@ -39,19 +41,23 @@
 
 ## 🚀 빠른 시작 (로컬 환경)
 
-### 1. 백그라운드 수집기 설치 및 실행
+### 1. Mac 데스크탑 앱 (Electron)으로 실행
 ```bash
 git clone https://github.com/stich9208/Tok-kie.git
 cd Tok-kie
 
+npm install
+npm run dev
+```
+* 맥북 상단 메뉴바에 **Tok-kie 🐰** 아이콘이 나타나며 백그라운드 수집기가 자동 실행됩니다!
+* 언제 어디서나 **`Cmd + Shift + T`** 단축키를 눌러 대시보드 창을 띄울 수 있습니다.
+
+---
+
+### 2. 터미널 및 브라우저에서 실행
+```bash
 chmod +x install.sh start_dashboard.sh uninstall.sh
 ./install.sh
-```
-
-`install.sh` 스크립트는 파이썬 가상환경을 구성하고 필수 패키지를 설치한 뒤, 기존 로그를 1회 자동 스캔하고 Mac 로그인 시 자동으로 실행되는 `launchd` 백그라운드 서비스를 등록합니다.
-
-### 2. 대시보드 열기
-```bash
 ./start_dashboard.sh
 ```
 브라우저에서 **[http://localhost:3000](http://localhost:3000)**으로 접속합니다.

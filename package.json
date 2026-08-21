@@ -1,0 +1,25 @@
+{
+  "name": "tok-kie",
+  "version": "1.0.0",
+  "description": "A friendly, local-first token & cost tracker for AI coding agents (Claude Code, Codex, Antigravity) 🐰",
+  "main": "electron/dist/main.js",
+  "author": "Jaewook Jung <stich9208@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "concurrently -k -p \"[{name}]\" -n \"Next,Electron\" -c \"cyan,magenta\" \"npm run next:dev\" \"npm run electron:dev\"",
+    "next:dev": "cd dashboard && npm run dev",
+    "next:build": "cd dashboard && npm run build",
+    "electron:compile": "tsc -p electron/tsconfig.json",
+    "electron:dev": "wait-on http://localhost:3000 && npm run electron:compile && electron electron/dist/main.js",
+    "build": "npm run next:build && npm run electron:compile",
+    "dist": "npm run build && electron-builder"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "concurrently": "^8.2.2",
+    "electron": "^29.1.0",
+    "electron-builder": "^24.13.3",
+    "typescript": "^5.3.3",
+    "wait-on": "^7.2.0"
+  }
+}
