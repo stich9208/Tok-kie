@@ -78,7 +78,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-30 bg-canvas/90 backdrop-blur-md border-b border-surface-border px-4 sm:px-6 lg:px-8 py-3 transition-all app-drag select-none">
+    <header className="sticky top-0 z-30 bg-canvas/90 backdrop-blur-md border-b border-surface-border px-5 sm:px-7 lg:px-9 py-3.5 md:py-4 transition-all app-drag select-none">
       {/* 1. Mobile Top Row (Hamburger + Logo + Theme + Profile) */}
       <div className="flex md:hidden items-center justify-between gap-3 pb-2.5 app-no-drag">
         <div className="flex items-center gap-2.5">

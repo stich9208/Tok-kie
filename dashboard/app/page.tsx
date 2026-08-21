@@ -128,7 +128,7 @@ export default function DashboardPage() {
         />
 
         {/* Content Area */}
-        <main className="p-4 sm:p-6 lg:p-10 max-w-7xl w-full mx-auto space-y-6 sm:space-y-8">
+        <main className="p-5 sm:p-8 lg:p-12 max-w-7xl w-full mx-auto space-y-6 sm:space-y-8">
           {/* Section 1: Dashboard (Overview) */}
           {currentTab === 'dashboard' && (
             <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-200">

@@ -58,7 +58,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* 2. Sidebar Container */}
       <aside
-        className={`bg-surface-nav border-r border-surface-border flex flex-col justify-between p-4 min-h-screen select-none transition-all duration-300 z-50 ${
+        className={`bg-surface-nav border-r border-surface-border flex flex-col justify-between p-4 md:p-5 min-h-screen select-none transition-all duration-300 z-50 ${
           /* Mobile: Drawer Fixed Slide-in */
           isMobileOpen
             ? 'fixed inset-y-0 left-0 w-72 shadow-2xl flex md:hidden animate-in slide-in-from-left duration-200'
@@ -67,7 +67,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       >
         <div className="space-y-6">
           {/* Brand Logo & Collapse / Close Toggle */}
-          <div className="flex items-center justify-between px-1.5 pt-6 md:pt-7 app-drag">
+          <div className="flex items-center justify-between px-1.5 pt-7 md:pt-10 app-drag">
             <div
               className="flex items-center gap-3 cursor-pointer overflow-hidden app-no-drag"
               onClick={() => handleTabClick('dashboard')}
