@@ -1,6 +1,6 @@
-# Agent Token Lens (에이전트 토큰 렌즈)
+# Tok-kie (토키 🐰)
 
-로컬 AI 코딩 에이전트(**Claude Code**, **OpenAI Codex**, **Google Antigravity**)의 실시간 토큰 사용량과 예상 API 비용을 추적하는 가볍고 직관적인 대시보드 도구입니다.
+로컬 AI 코딩 에이전트(**Claude Code**, **OpenAI Codex**, **Google Antigravity**)의 실시간 토큰 사용량과 예상 API 비용을 추적하는 가볍고 친근한 대시보드 도구입니다.
 
 [English](README.md) | [한국어](README.ko.md)
 
@@ -19,7 +19,7 @@
 - *세션 내에서 어떤 서브태스크나 작업 루프가 토큰의 80%를 썼을까?*
 - *내가 날린 프롬프트가 끝까지 잘 완료된 걸까, 아니면 중간에 `Ctrl+C`로 중단한 걸까?*
 
-Agent Token Lens는 Mac 백그라운드에서 가볍게 돌며 로컬 로그 파일의 변경을 실시간으로 감지하고, 이를 깔끔한 Next.js 대시보드로 시각화해 줍니다.
+**Tok-kie**는 Mac 백그라운드에서 가볍게 돌며 로컬 로그 파일의 변경을 실시간으로 감지하고, 이를 깔끔한 Next.js 대시보드로 시각화해 줍니다.
 
 ---
 
@@ -41,8 +41,8 @@ Agent Token Lens는 Mac 백그라운드에서 가볍게 돌며 로컬 로그 파
 
 ### 1. 백그라운드 수집기 설치 및 실행
 ```bash
-git clone https://github.com/YOUR_USERNAME/agent-token-tracker.git
-cd agent-token-tracker
+git clone https://github.com/YOUR_USERNAME/tok-kie.git
+cd tok-kie
 
 chmod +x install.sh start_dashboard.sh uninstall.sh
 ./install.sh

@@ -78,13 +78,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
               {(!isCollapsed || isMobileOpen) && (
                 <div className="animate-in fade-in duration-200">
                   <div className="flex items-center gap-1.5">
-                    <span className="font-serif font-bold text-lg text-text-primary tracking-tight">
-                      Lumina
+                    <span className="font-bold text-lg text-text-primary tracking-tight">
+                      Tok-kie
                     </span>
-                    <span className="text-xs text-amber-accent">✨</span>
+                    <span className="text-sm">🐰</span>
                   </div>
                   <span className="text-[10px] tracking-wider uppercase font-semibold text-text-secondary">
-                    Agent Tracker
+                    Token Tracker
                   </span>
                 </div>
               )}

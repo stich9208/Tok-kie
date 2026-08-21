@@ -1,6 +1,6 @@
-# Agent Token Lens
+# Tok-kie 🐰
 
-A lightweight, local-first dashboard to track token usage and estimated API costs from local AI coding agents (**Claude Code**, **OpenAI Codex**, and **Google Antigravity**).
+A friendly, local-first dashboard to track token usage and estimated API costs from local AI coding agents (**Claude Code**, **OpenAI Codex**, and **Google Antigravity**).
 
 [English](README.md) | [한국어](README.ko.md)
 
@@ -13,13 +13,13 @@ A lightweight, local-first dashboard to track token usage and estimated API cost
 
 ## Background
 
-I built this tool because I use multiple AI coding agents daily across different MacBooks, and it was hard to answer basic questions:
+I built **Tok-kie** because I use multiple AI coding agents daily across different MacBooks, and it was hard to answer basic questions:
 - *How many tokens did I burn across Claude Code and Codex today?*
 - *How much is this costing in API credits?*
 - *Which specific subtask or loop consumed 80% of the session's tokens?*
 - *Did my prompt finish properly, or did I interrupt it with `Ctrl+C`?*
 
-Agent Token Lens runs a tiny background watcher on your Mac that parses local log files as you code and renders everything in a clean Next.js dashboard.
+Tok-kie runs a tiny background watcher on your Mac that parses local log files as you code and renders everything in a clean Next.js dashboard.
 
 ---
 
@@ -41,8 +41,8 @@ Agent Token Lens runs a tiny background watcher on your Mac that parses local lo
 
 ### 1. Install and Start Background Collector
 ```bash
-git clone https://github.com/YOUR_USERNAME/agent-token-tracker.git
-cd agent-token-tracker
+git clone https://github.com/YOUR_USERNAME/tok-kie.git
+cd tok-kie
 
 chmod +x install.sh start_dashboard.sh uninstall.sh
 ./install.sh

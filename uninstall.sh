@@ -4,7 +4,7 @@ set -e
 PLIST_PATH="$HOME/Library/LaunchAgents/com.user.agent-token-tracker.plist"
 CONFIG_DIR="$HOME/.agent-token-tracker"
 
-echo "🛑 Agent Token Tracker 백그라운드 서비스를 중지하고 삭제합니다..."
+echo "🛑 Tok-kie 🐰 백그라운드 서비스를 중지하고 삭제합니다..."
 
 if [ -f "$PLIST_PATH" ]; then
     launchctl unload "$PLIST_PATH" 2>/dev/null || true

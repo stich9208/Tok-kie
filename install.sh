@@ -2,7 +2,7 @@
 set -e
 
 # ==========================================================
-# Agent Token Tracker - macOS One-Click Installer & Service Setup
+# Tok-kie 🐰 - macOS One-Click Installer & Service Setup
 # ==========================================================
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -12,7 +12,7 @@ CONFIG_DIR="$HOME/.agent-token-tracker"
 PLIST_PATH="$HOME/Library/LaunchAgents/com.user.agent-token-tracker.plist"
 
 echo "=========================================================="
-echo " 🚀 Agent Token Tracker - macOS Setup"
+echo " 🐰 Tok-kie - macOS Setup"
 echo "=========================================================="
 
 mkdir -p "$CONFIG_DIR"

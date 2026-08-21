@@ -72,10 +72,10 @@ export const Header: React.FC<HeaderProps> = ({
             <Menu className="w-4 h-4" />
           </button>
           <div className="flex items-center gap-1.5">
-            <span className="font-serif font-bold text-base text-text-primary tracking-tight">
-              Lumina
+            <span className="font-bold text-base text-text-primary tracking-tight">
+              Tok-kie
             </span>
-            <span className="text-xs text-amber-accent">✨</span>
+            <span className="text-sm">🐰</span>
           </div>
         </div>
 

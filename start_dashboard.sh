@@ -3,7 +3,7 @@ set -e
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-echo "🚀 Starting Agent Token Lens Web Dashboard..."
+echo "🐰 Starting Tok-kie Web Dashboard..."
 cd "$SCRIPT_DIR/dashboard"
 
 if [ ! -d "node_modules" ]; then

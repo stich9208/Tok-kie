@@ -15,8 +15,8 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  title: 'Lumina Ledger - Joyful Agent Monitoring',
-  description: 'Claude Code, Antigravity, Codex 등 멀티 Mac 코딩 에이전트 실시간 토큰 & 비용 통합 모니터링',
+  title: 'Tok-kie 🐰 | AI Coding Agent Token Tracker',
+  description: 'A friendly, local-first token & cost tracker for AI coding agents (Claude Code, OpenAI Codex, Google Antigravity)',
 };
 
 export default function RootLayout({
