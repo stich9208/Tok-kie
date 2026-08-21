@@ -31,7 +31,7 @@ Agent Token Lens runs a tiny background watcher on your Mac that parses local lo
   - **Google Antigravity**: Parses `transcript.jsonl` files and step hierarchies.
 - **Interruption Detection**: Detects user cancellations (`[Request interrupted by user]`, `CANCELLED`) and marks sessions with an `Interrupted` badge so you can distinguish incomplete runs.
 - **Task Timeline View**: Click any conversation to inspect prompt-by-prompt token consumption, tool executions, and step receipts.
-- **Multi-Account / Workspace Auto-Detection**: Extracts git repository context and user emails to separate company work from personal projects without manual tagging.
+- **Multi-Account Auto-Detection**: Automatically detects git repository configurations and user emails to separate and aggregate usage across multiple accounts without manual tagging.
 - **Zero Config Offline Mode**: Uses a local SQLite database by default. No cloud setup required.
 - **Optional Cloud Sync**: Can sync to a free Supabase instance so you can view your dashboard on mobile or other machines via Vercel.
 
