@@ -41,8 +41,8 @@
 
 ### 1. 백그라운드 수집기 설치 및 실행
 ```bash
-git clone https://github.com/YOUR_USERNAME/tok-kie.git
-cd tok-kie
+git clone https://github.com/stich9208/Tok-kie.git
+cd Tok-kie
 
 chmod +x install.sh start_dashboard.sh uninstall.sh
 ./install.sh

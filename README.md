@@ -41,8 +41,8 @@ Tok-kie runs a tiny background watcher on your Mac that parses local log files a
 
 ### 1. Install and Start Background Collector
 ```bash
-git clone https://github.com/YOUR_USERNAME/tok-kie.git
-cd tok-kie
+git clone https://github.com/stich9208/Tok-kie.git
+cd Tok-kie
 
 chmod +x install.sh start_dashboard.sh uninstall.sh
 ./install.sh
