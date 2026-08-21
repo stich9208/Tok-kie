@@ -25,7 +25,7 @@ Agent Token Lens runs a tiny background watcher on your Mac that parses local lo
 
 ## Features
 
-- **Multi-Agent Support**:
+- **Multi-Agent Log Parsing**:
   - **Claude Code**: Parses `~/.claude/projects/*/*.jsonl` session files, extracts clean titles, separates tool outputs from human prompts, and filters out synthetic system messages.
   - **OpenAI Codex**: Parses `~/.codex/state_5.sqlite` and rollout jsonl files, groups subagents under their parent conversations, and detects natural language questions from code snippets.
   - **Google Antigravity**: Parses `transcript.jsonl` files and step hierarchies.
@@ -100,15 +100,15 @@ python3 collector/main.py config --device "MacBook Pro 16"
 
 ---
 
-## Supported Agents & Pricing Models
+## Supported Agents & Log Sources
 
-Pricing is estimated based on standard API rates for input/output tokens:
+The collector extracts input/output tokens from local log files and calculates estimated costs based on standard API pricing for each model (Claude, GPT, Gemini, etc.):
 
-| Agent | Log Path | Supported Models |
+| Agent | Log Path | Notes |
 | :--- | :--- | :--- |
-| **Claude Code** | `~/.claude/projects/*/*.jsonl` | Claude 3.7 Sonnet, Claude 3.5 Sonnet, Claude 3.5 Haiku, Claude 3 Opus |
-| **OpenAI Codex** | `~/.codex/state_5.sqlite` | GPT-4o, GPT-4o-mini, o1, o3-mini, GPT-5 series |
-| **Google Antigravity** | `~/.gemini/antigravity/brain/*` | Gemini 2.0 Flash, Gemini 2.0 Pro, Gemini 1.5 Pro |
+| **Claude Code** | `~/.claude/projects/*/*.jsonl` | Captures prompts, tool results, tokens, and user interruptions |
+| **OpenAI Codex** | `~/.codex/state_5.sqlite`, `~/.codex/archived_sessions/*.jsonl` | Tracks conversation threads and spawned subagents |
+| **Google Antigravity** | `~/.gemini/antigravity/brain/*` | Captures full task execution trees and multi-step turns |
 
 ---
 

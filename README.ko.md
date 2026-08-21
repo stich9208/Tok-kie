@@ -25,7 +25,7 @@ Agent Token Lens는 Mac 백그라운드에서 가볍게 돌며 로컬 로그 파
 
 ## 🌟 주요 기능 (Features)
 
-- **3대 AI 코딩 에이전트 자동 지원**:
+- **에이전트별 로그 자동 파싱**:
   - **Claude Code**: `~/.claude/projects/*/*.jsonl` 세션 파일 파싱, 실제 대화 제목(`aiTitle`) 추출, 도구 실행 결과와 사용자 입력 분리, `<synthetic>` 에러 메시지 필터링.
   - **OpenAI Codex**: `~/.codex/state_5.sqlite` 및 Rollout 아카이브 파싱, 서브에이전트를 부모 대화에 계층적으로 연결, 코드 스니펫에서 자연어 질문 스마트 감지.
   - **Google Antigravity**: `transcript.jsonl` 파일 및 작업 계층 구조 파싱.
@@ -100,15 +100,15 @@ python3 collector/main.py config --device "MacBook Pro 16"
 
 ---
 
-## 📊 지원 에이전트 및 모델 가격 기준
+## 📊 지원 에이전트 및 로그 소스
 
-API 표준 가격을 기반으로 입력/출력 토큰 비용을 계산합니다:
+로컬 로그 파일에 기록된 입력/출력 토큰을 추출하며, 로그에 기록된 모델명(Claude, GPT, Gemini 등)의 표준 API 단가를 기준으로 예상 비용을 계산합니다:
 
-| 에이전트 | 감시 로그 경로 | 지원 모델 |
+| 에이전트 | 감시 로그 경로 | 특징 |
 | :--- | :--- | :--- |
-| **Claude Code** | `~/.claude/projects/*/*.jsonl` | Claude 3.7 Sonnet, Claude 3.5 Sonnet, Claude 3.5 Haiku, Claude 3 Opus |
-| **OpenAI Codex** | `~/.codex/state_5.sqlite` | GPT-4o, GPT-4o-mini, o1, o3-mini, GPT-5 series |
-| **Google Antigravity** | `~/.gemini/antigravity/brain/*` | Gemini 2.0 Flash, Gemini 2.0 Pro, Gemini 1.5 Pro |
+| **Claude Code** | `~/.claude/projects/*/*.jsonl` | 프롬프트, 도구 실행 결과, 토큰, 사용자 중단 감지 |
+| **OpenAI Codex** | `~/.codex/state_5.sqlite`, `~/.codex/archived_sessions/*.jsonl` | 대화 세션 및 하위 서브에이전트 계층 추적 |
+| **Google Antigravity** | `~/.gemini/antigravity/brain/*` | 전체 작업 실행 트리 및 멀티턴 스텝 집계 |
 
 ---
 
