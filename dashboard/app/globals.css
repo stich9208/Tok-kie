@@ -51,9 +51,50 @@
   -webkit-app-region: no-drag;
 }
 
-
-body {
+/* 1. Prevent OS Root Window Scrollbars */
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
   background-color: var(--canvas);
   color: var(--text-primary);
   transition: background-color 0.2s ease, color 0.2s ease;
 }
+
+/* 2. Global Ultra-Slim & Transparent Scrollbar (Mac Style) */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(140, 140, 140, 0.2);
+  border-radius: 9999px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(140, 140, 140, 0.45);
+}
+
+/* 3. Hide Scrollbar Utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 4. Elegant Internal Scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(140, 140, 140, 0.2) transparent;
+}
+

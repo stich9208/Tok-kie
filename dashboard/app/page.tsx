@@ -110,7 +110,7 @@ export default function DashboardPage() {
       />
 
       {/* 2. Main Canvas */}
-      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto transition-all duration-300">
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto overflow-x-hidden transition-all duration-300 custom-scrollbar">
         {/* Sticky Header with Global Controls & Light/Dark Theme Switcher */}
         <Header
           selectedDevice={selectedDevice}
@@ -128,7 +128,7 @@ export default function DashboardPage() {
         />
 
         {/* Content Area */}
-        <main className="p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-4 sm:space-y-6">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-4 sm:space-y-6">
           {/* Section 1: Dashboard (Overview) */}
           {currentTab === 'dashboard' && (
             <div className="space-y-4 sm:space-y-5 animate-in fade-in duration-200">
