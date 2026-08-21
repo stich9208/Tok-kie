@@ -128,17 +128,19 @@ export default function DashboardPage() {
         />
 
         {/* Content Area */}
-        <main className="p-5 sm:p-8 lg:p-12 max-w-7xl w-full mx-auto space-y-6 sm:space-y-8">
+        <main className="p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-4 sm:space-y-6">
           {/* Section 1: Dashboard (Overview) */}
           {currentTab === 'dashboard' && (
-            <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-200">
-              <div>
-                <h1 className="font-serif font-bold text-2xl sm:text-3xl lg:text-4xl text-text-primary tracking-tight">
-                  Overview Dashboard
-                </h1>
-                <p className="text-xs sm:text-sm text-text-secondary mt-1">
-                  High-level token consumption and agent activity metrics.
-                </p>
+            <div className="space-y-4 sm:space-y-5 animate-in fade-in duration-200">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <div>
+                  <h1 className="font-serif font-bold text-2xl sm:text-3xl text-text-primary tracking-tight">
+                    Overview Dashboard
+                  </h1>
+                  <p className="text-xs text-text-secondary">
+                    AI 코딩 에이전트 실시간 토큰 소비량 및 주요 활동 지표
+                  </p>
+                </div>
               </div>
 
               {/* Bento Row 1: 4 KPI Cards */}
@@ -152,14 +154,8 @@ export default function DashboardPage() {
                 deviceCount={deviceList.length || 1}
               />
 
-              {/* Bento Row 2: Middle Charts */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <YearlyChart data={yearlyStats} />
-                <MonthlyChart data={monthlyStats} />
-              </div>
-
-              {/* Bento Row 3: Bottom Charts */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Bento Row 2: Balanced 2-Column Core Charts */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
                 <DailyChart data={dailyStats} />
                 <DeviceBreakdown sessions={filteredSessions} />
               </div>
