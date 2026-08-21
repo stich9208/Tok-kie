@@ -71,10 +71,10 @@ export const MobilePairingModal: React.FC<MobilePairingModalProps> = ({ isOpen, 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-surface-nav border border-surface-border w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/65 backdrop-blur-sm animate-in fade-in duration-200 app-no-drag select-text">
+      <div className="bg-surface-nav border border-surface-border w-full max-w-md max-h-[88vh] flex flex-col rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 mt-6 sm:mt-8">
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-surface-border flex items-center justify-between bg-surface-card/40">
+        <div className="px-6 py-4 border-b border-surface-border flex items-center justify-between bg-surface-card/40 flex-shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-lavender-accent/15 border border-lavender-accent/30 flex items-center justify-center text-lavender-accent">
               <Smartphone className="w-4 h-4" />
@@ -95,7 +95,7 @@ export const MobilePairingModal: React.FC<MobilePairingModalProps> = ({ isOpen, 
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 flex flex-col items-center text-center space-y-4">
+        <div className="p-6 flex flex-col items-center text-center space-y-4 overflow-y-auto custom-scrollbar flex-1">
           {/* QR Code Container */}
           <div className="p-4 bg-white rounded-2xl shadow-lg border border-neutral-200 flex items-center justify-center relative group">
             <QRCodeSVG

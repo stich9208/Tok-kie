@@ -64,10 +64,10 @@ export const SupabaseModal: React.FC<SupabaseModalProps> = ({ isOpen, onClose, o
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-surface-nav border border-surface-border w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/65 backdrop-blur-sm animate-in fade-in duration-200 app-no-drag select-text">
+      <div className="bg-surface-nav border border-surface-border w-full max-w-lg max-h-[88vh] flex flex-col rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 mt-6 sm:mt-8">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-surface-border flex items-center justify-between bg-surface-card/50">
+        <div className="px-6 py-4 border-b border-surface-border flex items-center justify-between bg-surface-card/50 flex-shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
               <Database className="w-4 h-4" />
@@ -86,7 +86,7 @@ export const SupabaseModal: React.FC<SupabaseModalProps> = ({ isOpen, onClose, o
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-4">
+        <div className="p-6 space-y-4 overflow-y-auto custom-scrollbar flex-1">
           {isConfigured && (
             <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-start gap-3 text-xs text-emerald-400">
               <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5" />
