@@ -64,61 +64,61 @@ export const SupabaseModal: React.FC<SupabaseModalProps> = ({ isOpen, onClose, o
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 sm:p-6 pt-20 sm:pt-28 bg-black/65 backdrop-blur-sm animate-in fade-in duration-200 app-no-drag select-text overflow-y-auto custom-scrollbar">
-      <div className="bg-surface-nav border border-surface-border w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 mb-8">
+    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 sm:p-6 pt-16 sm:pt-24 bg-black/65 backdrop-blur-sm animate-in fade-in duration-200 app-no-drag select-text overflow-y-auto custom-scrollbar">
+      <div className="bg-surface-nav border border-surface-border w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 mb-8">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-surface-border flex items-center justify-between bg-surface-card/50 flex-shrink-0">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-              <Database className="w-4 h-4" />
+        <div className="px-6 py-5 border-b border-surface-border flex items-center justify-between bg-surface-card/50 flex-shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
+              <Database className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-text-primary">Supabase 클라우드 동기화</h2>
-              <p className="text-xs text-text-secondary">무료 PostgreSQL DB와 연동하여 어디서나 대시보드 조회</p>
+              <h2 className="text-lg font-bold text-text-primary">Supabase 클라우드 동기화</h2>
+              <p className="text-xs sm:text-sm text-text-secondary mt-0.5">무료 PostgreSQL DB와 연동하여 어디서나 대시보드 조회</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-border/50 transition-colors"
+            className="p-2 rounded-xl text-text-secondary hover:text-text-primary hover:bg-surface-border/50 transition-colors"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-4 overflow-y-auto custom-scrollbar flex-1">
+        <div className="p-6 sm:p-7 space-y-5 overflow-y-auto custom-scrollbar flex-1">
           {isConfigured && (
-            <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-start gap-3 text-xs text-emerald-400">
-              <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5" />
+            <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-start gap-3 text-sm text-emerald-400">
+              <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5" />
               <div>
-                <span className="font-semibold">클라우드 동기화 활성화됨</span>
-                <p className="text-emerald-400/80 mt-0.5">현재 연결된 프로젝트: {maskedUrl || 'Supabase Cloud'}</p>
+                <span className="font-bold">클라우드 동기화 활성화됨</span>
+                <p className="text-emerald-400/80 text-xs sm:text-sm mt-0.5 font-mono">{maskedUrl || 'Supabase Cloud'}</p>
               </div>
             </div>
           )}
 
-          <div className="p-3.5 rounded-xl bg-surface-card border border-surface-border space-y-2 text-xs text-text-secondary">
+          <div className="p-4 rounded-2xl bg-surface-card border border-surface-border space-y-2.5 text-xs sm:text-sm text-text-secondary">
             <div className="font-semibold text-text-primary flex items-center justify-between">
               <span>💡 1분 만에 무료 Supabase DB 만들기</span>
               <a
                 href="https://supabase.com"
                 target="_blank"
                 rel="noreferrer"
-                className="text-lavender-accent hover:underline flex items-center gap-1 font-normal"
+                className="text-lavender-accent hover:underline flex items-center gap-1 font-normal text-xs sm:text-sm"
               >
-                supabase.com <ExternalLink className="w-3 h-3" />
+                supabase.com <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
-            <ol className="list-decimal list-inside space-y-1 text-[11px] leading-relaxed">
+            <ol className="list-decimal list-inside space-y-1.5 text-xs sm:text-[13px] leading-relaxed">
               <li>Supabase 무료 프로젝트 생성 후 <b>SQL Editor</b> 이동</li>
-              <li>프로젝트의 <code className="bg-surface-border px-1 py-0.5 rounded text-amber-accent">supabase/schema.sql</code> 복사 & 붙여넣고 <b>Run</b> 실행</li>
+              <li>프로젝트의 <code className="bg-surface-border px-1.5 py-0.5 rounded text-amber-accent font-mono text-xs">supabase/schema.sql</code> 복사 & 붙여넣고 <b>Run</b> 실행</li>
               <li><b>Project Settings &gt; Data API</b>에서 URL과 anon key 복사</li>
             </ol>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-3.5 pt-1">
+          <form onSubmit={handleSubmit} className="space-y-4 pt-1">
             <div>
-              <label className="block text-xs font-semibold text-text-secondary mb-1.5">
+              <label className="block text-xs sm:text-sm font-bold text-text-primary mb-1.5">
                 Supabase Project URL
               </label>
               <input
@@ -127,12 +127,12 @@ export const SupabaseModal: React.FC<SupabaseModalProps> = ({ isOpen, onClose, o
                 placeholder="https://xxxxxxxxxxxx.supabase.co"
                 value={supabaseUrl}
                 onChange={e => setSupabaseUrl(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface-card border border-surface-border text-text-primary text-xs focus:outline-none focus:border-lavender-accent transition-colors placeholder:text-text-secondary/50 font-mono"
+                className="w-full px-4 py-3 rounded-2xl bg-surface-card border border-surface-border text-text-primary text-xs sm:text-sm focus:outline-none focus:border-lavender-accent transition-colors placeholder:text-text-secondary/50 font-mono shadow-sm"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-text-secondary mb-1.5">
+              <label className="block text-xs sm:text-sm font-bold text-text-primary mb-1.5">
                 Supabase Anon Public Key
               </label>
               <input
@@ -141,40 +141,40 @@ export const SupabaseModal: React.FC<SupabaseModalProps> = ({ isOpen, onClose, o
                 placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
                 value={supabaseKey}
                 onChange={e => setSupabaseKey(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface-card border border-surface-border text-text-primary text-xs focus:outline-none focus:border-lavender-accent transition-colors placeholder:text-text-secondary/50 font-mono"
+                className="w-full px-4 py-3 rounded-2xl bg-surface-card border border-surface-border text-text-primary text-xs sm:text-sm focus:outline-none focus:border-lavender-accent transition-colors placeholder:text-text-secondary/50 font-mono shadow-sm"
               />
             </div>
 
             {errorMsg && (
-              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs flex items-center gap-2">
+              <div className="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs sm:text-sm flex items-center gap-2.5">
                 <AlertCircle className="w-4 h-4 flex-shrink-0" />
                 <span>{errorMsg}</span>
               </div>
             )}
 
             {successMsg && (
-              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs flex items-center gap-2">
+              <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs sm:text-sm flex items-center gap-2.5">
                 <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                 <span>{successMsg}</span>
               </div>
             )}
 
-            <div className="pt-2 flex items-center justify-end gap-2.5">
+            <div className="pt-2 flex items-center justify-end gap-3">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2.5 rounded-xl bg-surface-card border border-surface-border text-text-secondary text-xs font-semibold hover:text-text-primary hover:bg-surface-border/50 transition-colors"
+                className="px-5 py-2.5 rounded-xl bg-surface-card border border-surface-border text-text-secondary text-xs sm:text-sm font-semibold hover:text-text-primary hover:bg-surface-border/50 transition-colors"
               >
                 닫기
               </button>
               <button
                 type="submit"
                 disabled={isLoading || !supabaseUrl || !supabaseKey}
-                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-lavender-accent to-pink-accent text-surface-nav font-bold text-xs shadow-md hover:opacity-90 transition-all disabled:opacity-50 flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-lavender-accent to-pink-accent text-surface-nav font-bold text-xs sm:text-sm shadow-md hover:opacity-90 transition-all disabled:opacity-50 flex items-center gap-2"
               >
                 {isLoading ? (
                   <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <Loader2 className="w-4 h-4 animate-spin" />
                     저장 및 동기화 중...
                   </>
                 ) : (
