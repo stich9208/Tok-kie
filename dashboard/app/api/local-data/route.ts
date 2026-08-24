@@ -10,6 +10,11 @@ export const dynamic = 'force-dynamic';
 const execFileAsync = promisify(execFile);
 const DB_PATH = path.join(os.homedir(), '.agent-token-tracker', 'offline_events.db');
 
+// In-memory cache to prevent spawning heavy sqlite3 CLI on every poll
+let cachedSessions: any[] = [];
+let cachedSessionsMtime: number = 0;
+const cachedSteps: Map<string, { mtime: number; steps: any[] }> = new Map();
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const sessionId = searchParams.get('session_id');
@@ -18,14 +23,25 @@ export async function GET(request: Request) {
     return NextResponse.json({ sessions: [], steps: [] });
   }
 
+  let dbMtime = 0;
+  try {
+    dbMtime = fs.statSync(DB_PATH).mtimeMs;
+  } catch {
+    dbMtime = Date.now();
+  }
+
   try {
     if (sessionId) {
-      // Validate sessionId strictly (alphanumeric, dash, underscore only)
       if (!/^[a-zA-Z0-9_:-]+$/.test(sessionId)) {
         return NextResponse.json({ error: 'Invalid session ID format' }, { status: 400 });
       }
 
-      // Query steps safely without shell interpolation
+      // Check step cache
+      const cached = cachedSteps.get(sessionId);
+      if (cached && cached.mtime === dbMtime) {
+        return NextResponse.json({ steps: cached.steps });
+      }
+
       const query = `SELECT payload FROM pending_steps WHERE session_id = '${sessionId.replace(/'/g, "''")}' ORDER BY rowid ASC;`;
       const { stdout } = await execFileAsync('sqlite3', ['-json', DB_PATH, query], { maxBuffer: 15 * 1024 * 1024 });
       
@@ -38,10 +54,15 @@ export async function GET(request: Request) {
         }
       }).filter(Boolean);
 
+      cachedSteps.set(sessionId, { mtime: dbMtime, steps });
       return NextResponse.json({ steps });
     }
 
-    // Query all sessions safely
+    // Check sessions cache
+    if (cachedSessions.length > 0 && cachedSessionsMtime === dbMtime) {
+      return NextResponse.json({ sessions: cachedSessions });
+    }
+
     const query = `SELECT payload FROM pending_sessions ORDER BY rowid DESC;`;
     const { stdout } = await execFileAsync('sqlite3', ['-json', DB_PATH, query], { maxBuffer: 25 * 1024 * 1024 });
 
@@ -54,9 +75,12 @@ export async function GET(request: Request) {
       }
     }).filter(Boolean);
 
+    cachedSessions = sessions;
+    cachedSessionsMtime = dbMtime;
+
     return NextResponse.json({ sessions });
   } catch (error: any) {
     console.error('Error querying local SQLite:', error);
-    return NextResponse.json({ sessions: [], steps: [], error: error.message }, { status: 500 });
+    return NextResponse.json({ sessions: cachedSessions, steps: [], error: error.message }, { status: 500 });
   }
 }

@@ -29,17 +29,46 @@ export default function DashboardPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
 
-  // Fetch data
+  // Fetch data with visibility awareness and smooth background refresh
   useEffect(() => {
-    async function load() {
-      setLoading(true);
+    async function load(isInitial = false) {
+      if (isInitial) setLoading(true);
       const data = await fetchSessions();
       setSessions(data);
-      setLoading(false);
+      if (isInitial) setLoading(false);
     }
-    load();
-    const interval = setInterval(load, 10000);
-    return () => clearInterval(interval);
+
+    load(true);
+
+    const interval = setInterval(() => {
+      // Only poll when window / tab is active to save CPU and battery
+      if (typeof document !== 'undefined' && !document.hidden) {
+        load(false);
+      }
+    }, 12000);
+
+    // Refresh immediately when window becomes visible again
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        load(false);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
+  // Handle OAuth callback status
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('supabase_connected') === 'true' || urlParams.get('supabase_error')) {
+        setIsSupabaseOpen(true);
+      }
+    }
   }, []);
 
   // Filter sessions

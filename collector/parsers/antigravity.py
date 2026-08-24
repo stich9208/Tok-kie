@@ -12,7 +12,7 @@ class AntigravityParser(BaseAgentParser):
 
     def can_handle(self, file_path: str) -> bool:
         p = Path(file_path)
-        return "antigravity" in file_path and p.name in ("transcript.jsonl", "transcript_full.jsonl")
+        return "antigravity" in file_path and p.name == "transcript.jsonl"
 
     def _extract_conversation_id(self, file_path: str) -> str:
         parts = Path(file_path).parts
