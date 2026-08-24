@@ -60,7 +60,7 @@ chmod +x install.sh start_dashboard.sh uninstall.sh
 ./install.sh
 ./start_dashboard.sh
 ```
-Open **[http://localhost:3000](http://localhost:3000)** in your browser.
+Open **[http://localhost:3030](http://localhost:3030)** in your browser.
 
 ---
 

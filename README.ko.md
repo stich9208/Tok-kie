@@ -60,7 +60,7 @@ chmod +x install.sh start_dashboard.sh uninstall.sh
 ./install.sh
 ./start_dashboard.sh
 ```
-브라우저에서 **[http://localhost:3000](http://localhost:3000)**으로 접속합니다.
+브라우저에서 **[http://localhost:3030](http://localhost:3030)**으로 접속합니다.
 
 ---
 

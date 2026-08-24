@@ -11,5 +11,5 @@ if [ ! -d "node_modules" ]; then
     npm install
 fi
 
-echo "🌐 Opening dashboard at http://localhost:3000..."
+echo "🌐 Opening dashboard at http://localhost:3030..."
 npm run dev

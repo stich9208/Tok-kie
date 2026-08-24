@@ -2,6 +2,11 @@ appId: com.stich9208.tokkie
 productName: Tok-kie
 copyright: Copyright © 2026 Jaewook Jung
 
+protocols:
+  - name: Tok-kie Protocol
+    schemes:
+      - tokkie
+
 directories:
   output: dist
   buildResources: build

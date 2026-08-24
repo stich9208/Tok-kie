@@ -10,7 +10,7 @@
     "next:dev": "cd dashboard && npm run dev",
     "next:build": "cd dashboard && npm run build",
     "electron:compile": "tsc -p electron/tsconfig.json",
-    "electron:dev": "wait-on http://localhost:3000 && npm run electron:compile && electron electron/dist/main.js",
+    "electron:dev": "wait-on http://localhost:3030 && npm run electron:compile && electron electron/dist/main.js",
     "build": "npm run next:build && npm run electron:compile",
     "dist": "npm run build && electron-builder"
   },
