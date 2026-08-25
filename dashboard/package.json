@@ -2,29 +2,35 @@
   "name": "agent-token-tracker-dashboard",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0",
+    "npm": ">=10.0.0"
+  },
+  "packageManager": "npm@10.9.2",
   "scripts": {
     "dev": "next dev -p 3030",
-    "build": "next build",
-    "start": "next start -p 3030",
-    "lint": "next lint"
+    "build": "next build --webpack",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.43.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
-    "lucide-react": "^0.378.0",
-    "next": "^14.2.3",
+    "lucide-react": "1.33.0",
+    "next": "16.3.2",
     "qrcode.react": "^4.2.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "recharts": "^2.12.7",
     "tailwind-merge": "^2.3.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",
-    "@types/react": "^18.3.2",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.5",
     "autoprefixer": "^10.4.19",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.3.2",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5"

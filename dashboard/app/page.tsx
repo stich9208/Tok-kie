@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Session, Step, DailyStat, MonthlyStat, YearlyStat } from '../lib/types';
-import { fetchSessions, aggregateSessions } from '../lib/supabase';
+import React, { useCallback, useState, useEffect } from 'react';
+import type { Session } from '../lib/types';
+import { aggregateSessions } from '../lib/analytics';
+import { createDashboardGateway, type DashboardGateway } from '../lib/gateway';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header';
 import { KpiCards } from '../components/KpiCards';
@@ -18,6 +19,10 @@ import { MobilePairingModal } from '../components/MobilePairingModal';
 export default function DashboardPage() {
   const [sessions, setSessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
+  const [gateway, setGateway] = useState<DashboardGateway | null>(null);
+  const [cloudConfigured, setCloudConfigured] = useState(false);
+  const [refreshNonce, setRefreshNonce] = useState(0);
   const [currentTab, setCurrentTab] = useState('dashboard');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -28,17 +33,44 @@ export default function DashboardPage() {
   const [selectedAgent, setSelectedAgent] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
+  const closeSelectedSession = useCallback(() => setSelectedSession(null), []);
 
-  // Fetch data with visibility awareness and smooth background refresh
   useEffect(() => {
+    setGateway(createDashboardGateway());
+  }, []);
+
+  // Fetch data with visibility awareness and smooth background refresh.
+  useEffect(() => {
+    if (!gateway) return;
+    let cancelled = false;
+
     async function load(isInitial = false) {
       if (isInitial) setLoading(true);
-      const data = await fetchSessions();
-      setSessions(data);
-      if (isInitial) setLoading(false);
+      try {
+        const data = await gateway!.querySessions({ include_archived: false });
+        if (cancelled) return;
+        setSessions(data);
+        setLoadError('');
+        if (gateway!.kind === 'web') setCloudConfigured(true);
+      } catch (error) {
+        if (cancelled) return;
+        setLoadError(error instanceof Error ? error.message : '데이터를 불러오지 못했습니다.');
+      } finally {
+        if (!cancelled && isInitial) setLoading(false);
+      }
     }
 
     load(true);
+
+    if (gateway.capabilities.cloudSettings) {
+      gateway.getCloudSettings()
+        .then((settings) => {
+          if (!cancelled) setCloudConfigured(settings.configured);
+        })
+        .catch(() => {
+          if (!cancelled) setCloudConfigured(false);
+        });
+    }
 
     const interval = setInterval(() => {
       // Only poll when window / tab is active to save CPU and battery
@@ -56,20 +88,11 @@ export default function DashboardPage() {
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
     return () => {
+      cancelled = true;
       clearInterval(interval);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
-
-  // Handle OAuth callback status
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('supabase_connected') === 'true' || urlParams.get('supabase_error')) {
-        setIsSupabaseOpen(true);
-      }
-    }
-  }, []);
+  }, [gateway, refreshNonce]);
 
   // Filter sessions
   const filteredSessions = sessions.filter((s) => {
@@ -86,7 +109,7 @@ export default function DashboardPage() {
   });
 
   // Aggregated data
-  const { dailyStats, monthlyStats, yearlyStats, totalTokens, totalCostUsd } =
+  const { dailyStats, monthlyStats, yearlyStats, totalTokens, totalCostUsd, unpricedSessions } =
     aggregateSessions(filteredSessions);
 
   // Precise Today (KST) usage calculation
@@ -115,6 +138,7 @@ export default function DashboardPage() {
 
   const todayTokens = todaySessionsList.reduce((acc, s) => acc + (Number(s.total_tokens) || 0), 0);
   const todayCostUsd = todaySessionsList.reduce((acc, s) => acc + (Number(s.estimated_cost_usd) || 0), 0);
+  const todayUnpricedSessions = todaySessionsList.filter((session) => session.estimated_cost_usd === null).length;
   const todaySessionsCount = todaySessionsList.length;
 
   const deviceList = Array.from(
@@ -122,7 +146,7 @@ export default function DashboardPage() {
   );
 
   const accountList = Array.from(
-    new Set(sessions.map((s) => s.user_email).filter((e): e is string => Boolean(e) && e !== 'unknown'))
+    new Set(sessions.map((s) => s.user_email || 'unknown'))
   );
 
   const agentList = Array.from(
@@ -160,10 +184,46 @@ export default function DashboardPage() {
           onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           onOpenSupabase={() => setIsSupabaseOpen(true)}
           onOpenMobilePairing={() => setIsMobilePairingOpen(true)}
+          gatewayKind={gateway?.kind || 'unavailable'}
+          gatewayCapabilities={gateway?.capabilities}
+          isCloudConfigured={cloudConfigured}
         />
 
         {/* Content Area (Scrollbar is isolated strictly inside this area below Header) */}
         <main className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-4 sm:space-y-6">
+          {loading && (
+            <div className="rounded-2xl border border-surface-border bg-surface-card px-5 py-4 text-sm text-text-secondary animate-pulse" role="status">
+              {gateway?.label || '데이터 환경'}에서 사용 기록을 불러오는 중입니다…
+            </div>
+          )}
+
+          {!loading && loadError && (
+            <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 px-5 py-4 flex flex-wrap items-center justify-between gap-3" role="alert">
+              <div>
+                <p className="text-sm font-bold text-rose-400">데이터 연결을 확인해주세요</p>
+                <p className="text-xs text-text-secondary mt-1">{loadError}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setRefreshNonce((value) => value + 1)}
+                className="px-4 py-2 rounded-xl bg-surface-card border border-surface-border text-xs font-bold text-text-primary hover:border-rose-400 transition-colors"
+              >
+                다시 시도
+              </button>
+            </div>
+          )}
+
+          {!loading && !loadError && sessions.length === 0 && (
+            <div className="rounded-2xl border border-surface-border bg-surface-card px-5 py-8 text-center" role="status">
+              <p className="text-sm font-bold text-text-primary">아직 표시할 대화가 없습니다</p>
+              <p className="text-xs text-text-secondary mt-1">
+                {gateway?.kind === 'electron'
+                  ? '첫 로컬 스캔이 완료되면 대화가 자동으로 나타납니다.'
+                  : '인증된 계정에 동기화된 대화가 없습니다.'}
+              </p>
+            </div>
+          )}
+
           {/* Section 1: Dashboard (Overview) */}
           {currentTab === 'dashboard' && (
             <div className="space-y-4 sm:space-y-5 animate-in fade-in duration-200">
@@ -182,15 +242,17 @@ export default function DashboardPage() {
               <KpiCards
                 totalTokens={totalTokens}
                 totalCostUsd={totalCostUsd}
+                unpricedSessionCount={unpricedSessions}
                 sessionCount={filteredSessions.length}
                 todayTokens={todayTokens}
                 todayCostUsd={todayCostUsd}
+                todayUnpricedSessionCount={todayUnpricedSessions}
                 todaySessions={todaySessionsCount}
                 deviceCount={deviceList.length || 1}
               />
 
               {/* Bento Row 2: Balanced 2-Column Core Charts */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
+              <div className="grid grid-cols-1 2xl:grid-cols-2 gap-4 sm:gap-5">
                 <DailyChart data={dailyStats} />
                 <DeviceBreakdown sessions={filteredSessions} />
               </div>
@@ -252,7 +314,8 @@ export default function DashboardPage() {
       {selectedSession && (
         <StepTimelineModal
           session={selectedSession}
-          onClose={() => setSelectedSession(null)}
+          onClose={closeSelectedSession}
+          gateway={gateway}
         />
       )}
 
@@ -260,12 +323,16 @@ export default function DashboardPage() {
       <SupabaseModal
         isOpen={isSupabaseOpen}
         onClose={() => setIsSupabaseOpen(false)}
+        gateway={gateway}
+        onSuccess={() => setRefreshNonce((value) => value + 1)}
       />
 
       <MobilePairingModal
         isOpen={isMobilePairingOpen}
         onClose={() => setIsMobilePairingOpen(false)}
+        gateway={gateway}
       />
+
     </div>
   );
 }

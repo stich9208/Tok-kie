@@ -13,7 +13,8 @@ export interface Session {
   total_prompt_tokens: number;
   total_completion_tokens: number;
   total_tokens: number;
-  estimated_cost_usd: number;
+  /** Null means the model has no defensible versioned price estimate. */
+  estimated_cost_usd: number | null;
   is_archived?: boolean;
 }
 

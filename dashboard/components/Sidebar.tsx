@@ -8,9 +8,7 @@ import {
   Bot,
   Sparkles,
   ChevronLeft,
-  ChevronRight,
-  PanelLeftClose,
-  PanelLeftOpen
+  ChevronRight
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -46,6 +44,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
+  const showBrandText = !isCollapsed || isMobileOpen;
+  const handleBrandClick = () => {
+    if (isCollapsed && !isMobileOpen) {
+      onToggleCollapse();
+      return;
+    }
+    handleTabClick('dashboard');
+  };
+
   return (
     <>
       {/* 1. Mobile Backdrop Overlay */}
@@ -67,34 +74,48 @@ export const Sidebar: React.FC<SidebarProps> = ({
       >
         <div className="space-y-6">
           {/* Brand Logo & Collapse / Close Toggle */}
-          <div className="flex items-center justify-between px-1.5 pt-7 md:pt-10 app-drag">
-            <div
-              className="flex items-center gap-3 cursor-pointer overflow-hidden app-no-drag"
-              onClick={() => handleTabClick('dashboard')}
+          <div className="relative h-10 mx-1.5 mt-7 md:mt-10 app-drag">
+            <button
+              type="button"
+              title={isCollapsed && !isMobileOpen ? '사이드바 펼치기' : '대시보드로 이동'}
+              className={`absolute inset-y-0 flex items-center overflow-hidden app-no-drag transition-[left,right] duration-300 ${
+                isCollapsed && !isMobileOpen
+                  ? 'inset-x-0 justify-center'
+                  : 'left-0 right-9 justify-start'
+              }`}
+              onClick={handleBrandClick}
             >
               <div className="w-9 h-9 rounded-2xl bg-surface-card border border-surface-border flex items-center justify-center flex-shrink-0 shadow-sm">
                 <Sparkles className="w-4 h-4 text-amber-accent" />
               </div>
-              {(!isCollapsed || isMobileOpen) && (
-                <div className="animate-in fade-in duration-200">
-                  <div className="flex items-center gap-1.5">
+              <div
+                aria-hidden={!showBrandText}
+                className={`min-w-0 overflow-hidden whitespace-nowrap text-left transition-[width,margin,opacity,transform] duration-200 ${
+                  showBrandText
+                    ? 'ml-3 w-32 opacity-100 translate-x-0 delay-100'
+                    : 'ml-0 w-0 opacity-0 -translate-x-1 pointer-events-none'
+                }`}
+              >
+                  <div className="flex items-center gap-1.5 whitespace-nowrap">
                     <span className="font-bold text-lg text-text-primary tracking-tight">
                       Tok-kie
                     </span>
                     <span className="text-sm">🐰</span>
                   </div>
-                  <span className="text-[10px] tracking-wider uppercase font-semibold text-text-secondary">
+                  <span className="block text-[10px] leading-none tracking-wider uppercase font-semibold text-text-secondary whitespace-nowrap">
                     Token Tracker
                   </span>
-                </div>
-              )}
-            </div>
+              </div>
+            </button>
 
             {/* Desktop Collapse / Mobile Close Button */}
             <button
+              type="button"
               onClick={isMobileOpen ? onCloseMobile : onToggleCollapse}
               title={isMobileOpen ? '닫기' : isCollapsed ? '사이드바 펼치기' : '사이드바 접기'}
-              className="p-1.5 rounded-xl bg-surface-card border border-surface-border text-text-secondary hover:text-text-primary transition-colors flex-shrink-0 app-no-drag"
+              className={`absolute right-0 top-1/2 -translate-y-1/2 p-1.5 rounded-xl bg-surface-card border border-surface-border text-text-secondary hover:text-text-primary transition-[opacity,color,background-color] duration-200 app-no-drag ${
+                isCollapsed && !isMobileOpen ? 'opacity-0 pointer-events-none' : 'opacity-100 delay-100'
+              }`}
             >
               {isMobileOpen ? (
                 <ChevronLeft className="w-4 h-4" />

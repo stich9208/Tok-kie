@@ -1,23 +1,17 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Search,
-  Bell,
-  Settings,
   Laptop,
-  CheckCircle2,
-  Sparkles,
   Bot,
   User,
   Menu,
   Cloud,
-  Database,
   Smartphone
 } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
-import { SupabaseModal } from './SupabaseModal';
-import { MobilePairingModal } from './MobilePairingModal';
+import type { GatewayCapabilities, GatewayKind } from '../lib/gateway';
 
 interface HeaderProps {
   selectedDevice: string;
@@ -34,6 +28,9 @@ interface HeaderProps {
   onToggleMobileMenu?: () => void;
   onOpenSupabase?: () => void;
   onOpenMobilePairing?: () => void;
+  gatewayKind: GatewayKind;
+  gatewayCapabilities?: GatewayCapabilities;
+  isCloudConfigured: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -51,17 +48,12 @@ export const Header: React.FC<HeaderProps> = ({
   onToggleMobileMenu,
   onOpenSupabase,
   onOpenMobilePairing,
+  gatewayKind,
+  gatewayCapabilities,
+  isCloudConfigured,
 }) => {
-  const [isCloudConfigured, setIsCloudConfigured] = useState(false);
-
-  useEffect(() => {
-    fetch('/api/config')
-      .then(res => res.json())
-      .then(data => {
-        setIsCloudConfigured(!!data.configured);
-      })
-      .catch(() => {});
-  }, []);
+  const canManageCloud = Boolean(gatewayCapabilities?.cloudSettings);
+  const canPairMobile = Boolean(gatewayCapabilities?.pairing);
 
   const DEFAULT_AGENTS = ['antigravity', 'codex', 'claude_code'];
   const allAgents = Array.from(new Set([...DEFAULT_AGENTS, ...agentList]));
@@ -78,6 +70,8 @@ export const Header: React.FC<HeaderProps> = ({
         return name.charAt(0).toUpperCase() + name.slice(1);
     }
   };
+
+  const formatAccountName = (name: string) => name === 'unknown' ? '계정 정보 없음' : name;
 
   return (
     <header className="sticky top-0 z-30 bg-canvas/90 backdrop-blur-md border-b border-surface-border px-5 sm:px-7 lg:px-9 py-3.5 md:py-4 transition-all app-drag select-none">
@@ -102,7 +96,8 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={onOpenSupabase}
-            title="Supabase 클라우드 설정"
+            disabled={!canManageCloud}
+            title={canManageCloud ? 'Supabase 클라우드 설정' : '클라우드 설정은 데스크톱 앱에서 관리합니다'}
             className={`p-1.5 rounded-full border text-xs flex items-center justify-center transition-all ${
               isCloudConfigured
                 ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
@@ -141,8 +136,8 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="grid grid-cols-3 gap-1.5 sm:gap-2 w-full md:flex md:w-auto md:items-center md:justify-end flex-shrink-0 app-no-drag">
           {/* Live Status Badge (Desktop Only) */}
           <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 bg-surface-card border border-surface-border rounded-full text-[11px] font-semibold text-mint-accent flex-shrink-0">
-            <span className="w-1.5 h-1.5 rounded-full bg-mint-accent animate-pulse" />
-            <span className="hidden 2xl:inline">Live Sync</span>
+            <span className={`w-1.5 h-1.5 rounded-full ${loadStatusColor(gatewayKind)}`} />
+            <span className="hidden 2xl:inline">{gatewayKind === 'electron' ? 'Local IPC' : gatewayKind === 'web' ? 'Supabase' : 'Starting'}</span>
           </div>
 
           {/* Device Filter Dropdown */}
@@ -173,7 +168,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <option value="All">모든 계정</option>
                 {accountList.map((acc) => (
                   <option key={acc} value={acc}>
-                    {acc}
+                    {formatAccountName(acc)}
                   </option>
                 ))}
               </select>
@@ -202,8 +197,9 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="hidden md:flex items-center gap-1.5 lg:gap-2 pl-1 flex-shrink-0 app-no-drag">
             <button
               onClick={onOpenMobilePairing}
-              title="모바일 1초 QR 연동"
-              className="p-1.5 lg:px-3 lg:py-1.5 rounded-full border border-surface-border bg-surface-card text-text-secondary hover:text-text-primary hover:border-lavender-accent text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
+              disabled={!canPairMobile}
+              title={canPairMobile ? '5분 모바일 QR 연동' : '모바일 페어링은 데스크톱 앱에서 생성합니다'}
+              className="p-1.5 lg:px-3 lg:py-1.5 rounded-full border border-surface-border bg-surface-card text-text-secondary hover:text-text-primary hover:border-lavender-accent text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <Smartphone className="w-3.5 h-3.5 text-lavender-accent" />
               <span className="hidden xl:inline">모바일 연동</span>
@@ -211,8 +207,9 @@ export const Header: React.FC<HeaderProps> = ({
 
             <button
               onClick={onOpenSupabase}
+              disabled={!canManageCloud}
               title={isCloudConfigured ? 'Supabase 클라우드 연결됨' : 'Supabase 클라우드 연결 설정'}
-              className={`p-1.5 lg:px-3 lg:py-1.5 rounded-full border text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm ${
+              className={`p-1.5 lg:px-3 lg:py-1.5 rounded-full border text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm disabled:opacity-40 disabled:cursor-not-allowed ${
                 isCloudConfigured
                   ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20'
                   : 'bg-surface-card border-surface-border text-lavender-accent hover:border-lavender-accent'
@@ -234,3 +231,8 @@ export const Header: React.FC<HeaderProps> = ({
     </header>
   );
 };
+
+function loadStatusColor(kind: GatewayKind): string {
+  if (kind === 'electron' || kind === 'web') return 'bg-mint-accent animate-pulse';
+  return 'bg-text-secondary';
+}

@@ -55,9 +55,9 @@ export const DeviceBreakdown: React.FC<DeviceBreakdownProps> = ({ sessions }) =>
   const topAgentPct = totalTokens > 0 && sortedAgents[0] ? Math.round((sortedAgents[0].value / totalTokens) * 100) : 0;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-4 lg:gap-5">
       {/* 1. Device Share */}
-      <div className="bg-surface-card border border-surface-border rounded-3xl p-5 shadow-sm flex flex-col justify-between space-y-3 hover:border-surface-border-light transition-all">
+      <div className="min-w-0 overflow-hidden bg-surface-card border border-surface-border rounded-3xl p-5 shadow-sm flex flex-col justify-between space-y-3 hover:border-surface-border-light transition-all">
         <div className="flex items-center justify-between border-b border-surface-border/60 pb-3">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-surface-container flex items-center justify-center text-lavender-accent border border-surface-border">
@@ -78,8 +78,8 @@ export const DeviceBreakdown: React.FC<DeviceBreakdownProps> = ({ sessions }) =>
                 data={deviceData}
                 cx="50%"
                 cy="50%"
-                innerRadius={40}
-                outerRadius={58}
+                innerRadius="42%"
+                outerRadius="62%"
                 paddingAngle={3}
                 dataKey="value"
               >
@@ -107,7 +107,7 @@ export const DeviceBreakdown: React.FC<DeviceBreakdownProps> = ({ sessions }) =>
       </div>
 
       {/* 2. Account Share (Multi-Account) */}
-      <div className="bg-surface-card border border-surface-border rounded-3xl p-5 shadow-sm flex flex-col justify-between space-y-3 hover:border-surface-border-light transition-all">
+      <div className="min-w-0 overflow-hidden bg-surface-card border border-surface-border rounded-3xl p-5 shadow-sm flex flex-col justify-between space-y-3 hover:border-surface-border-light transition-all">
         <div className="flex items-center justify-between border-b border-surface-border/60 pb-3">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-surface-container flex items-center justify-center text-mint-accent border border-surface-border">
@@ -128,8 +128,8 @@ export const DeviceBreakdown: React.FC<DeviceBreakdownProps> = ({ sessions }) =>
                 data={accountData}
                 cx="50%"
                 cy="50%"
-                innerRadius={40}
-                outerRadius={58}
+                innerRadius="42%"
+                outerRadius="62%"
                 paddingAngle={3}
                 dataKey="value"
               >
@@ -157,7 +157,7 @@ export const DeviceBreakdown: React.FC<DeviceBreakdownProps> = ({ sessions }) =>
       </div>
 
       {/* 3. Agent Share */}
-      <div className="bg-surface-card border border-surface-border rounded-3xl p-5 shadow-sm flex flex-col justify-between space-y-3 hover:border-surface-border-light transition-all">
+      <div className="min-w-0 overflow-hidden bg-surface-card border border-surface-border rounded-3xl p-5 shadow-sm flex flex-col justify-between space-y-3 hover:border-surface-border-light transition-all">
         <div className="flex items-center justify-between border-b border-surface-border/60 pb-3">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-surface-container flex items-center justify-center text-amber-accent border border-surface-border">
@@ -178,8 +178,8 @@ export const DeviceBreakdown: React.FC<DeviceBreakdownProps> = ({ sessions }) =>
                 data={agentData}
                 cx="50%"
                 cy="50%"
-                innerRadius={40}
-                outerRadius={58}
+                innerRadius="42%"
+                outerRadius="62%"
                 paddingAngle={3}
                 dataKey="value"
               >

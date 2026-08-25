@@ -115,7 +115,9 @@ export const SessionTable: React.FC<SessionTableProps> = ({
   };
 
   const formatTokens = (n: number) => (n || 0).toLocaleString();
-  const formatCost = (c: number) => `$${(Number(c) || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  const formatCost = (c: number | null) => c === null
+    ? '추정 불가'
+    : `$${c.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
   return (
     <div className="space-y-6 w-full">

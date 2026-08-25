@@ -6,7 +6,6 @@ import {
   TrendingUp,
   Coins,
   MessageSquare,
-  Sparkles,
   ArrowUpRight,
   Laptop
 } from 'lucide-react';
@@ -14,9 +13,11 @@ import {
 interface KpiCardsProps {
   totalTokens: number;
   totalCostUsd: number;
+  unpricedSessionCount?: number;
   sessionCount: number;
   todayTokens?: number;
   todayCostUsd?: number;
+  todayUnpricedSessionCount?: number;
   todaySessions?: number;
   deviceCount?: number;
 }
@@ -24,14 +25,25 @@ interface KpiCardsProps {
 export const KpiCards: React.FC<KpiCardsProps> = ({
   totalTokens,
   totalCostUsd,
+  unpricedSessionCount = 0,
   sessionCount,
   todayTokens = 0,
   todayCostUsd = 0,
+  todayUnpricedSessionCount = 0,
   todaySessions = 0,
   deviceCount = 1,
 }) => {
   const formatNumber = (num: number) => {
     return (num || 0).toLocaleString();
+  };
+
+  const formatCompactNumber = (num: number) => {
+    const value = Number(num) || 0;
+    if (Math.abs(value) < 1_000_000) return formatNumber(value);
+    return new Intl.NumberFormat(undefined, {
+      notation: 'compact',
+      maximumFractionDigits: 1,
+    }).format(value);
   };
 
   const formatCost = (cost: number) => {
@@ -41,10 +53,19 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
     })}`;
   };
 
+  const formatCompactCost = (cost: number) => {
+    const value = Number(cost) || 0;
+    if (Math.abs(value) < 100_000) return formatCost(value);
+    return `$${new Intl.NumberFormat(undefined, {
+      notation: 'compact',
+      maximumFractionDigits: 1,
+    }).format(value)}`;
+  };
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-3.5 sm:gap-5">
       {/* 1. Tokens Used */}
-      <div className="bg-surface-card border border-surface-border rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col justify-between space-y-3.5 sm:space-y-4 hover:border-surface-border-light transition-all">
+      <div className="min-w-0 overflow-hidden bg-surface-card border border-surface-border rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col justify-between space-y-3.5 sm:space-y-4 hover:border-surface-border-light transition-all">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="font-sans text-xs font-semibold text-text-secondary tracking-wider">
@@ -58,8 +79,8 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
         </div>
 
         <div>
-          <div className="font-sans font-bold text-2xl lg:text-3xl text-text-primary tracking-tight">
-            {formatNumber(totalTokens)}
+          <div className="font-sans font-bold text-2xl sm:text-3xl text-text-primary tracking-tight leading-none truncate" title={`${formatNumber(totalTokens)} tokens`}>
+            {formatCompactNumber(totalTokens)}
           </div>
           <div className="text-xs text-text-secondary font-medium mt-1">
             All-Time Cumulative
@@ -73,7 +94,7 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
       </div>
 
       {/* 2. Today's Usage */}
-      <div className="bg-surface-card border border-surface-border rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col justify-between space-y-3.5 sm:space-y-4 hover:border-surface-border-light transition-all">
+      <div className="min-w-0 overflow-hidden bg-surface-card border border-surface-border rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col justify-between space-y-3.5 sm:space-y-4 hover:border-surface-border-light transition-all">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="font-sans text-xs font-semibold text-text-secondary tracking-wider">
@@ -87,11 +108,13 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
         </div>
 
         <div>
-          <div className="font-sans font-bold text-2xl lg:text-3xl text-text-primary tracking-tight">
-            {formatNumber(todayTokens)}
+          <div className="font-sans font-bold text-2xl sm:text-3xl text-text-primary tracking-tight leading-none truncate" title={`${formatNumber(todayTokens)} tokens`}>
+            {formatCompactNumber(todayTokens)}
           </div>
           <div className="text-xs text-text-secondary font-medium mt-1">
-            {todayCostUsd > 0 ? `Est. ${formatCost(todayCostUsd)} value` : 'Tokens consumed today'}
+            {todayUnpricedSessionCount > 0
+              ? `Known-model estimate ${formatCost(todayCostUsd)} · ${todayUnpricedSessionCount} unavailable`
+              : todayCostUsd > 0 ? `Est. ${formatCost(todayCostUsd)} value` : 'Tokens consumed today'}
           </div>
         </div>
 
@@ -103,7 +126,7 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
       </div>
 
       {/* 3. Value Saved */}
-      <div className="bg-surface-card border border-surface-border rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col justify-between space-y-3.5 sm:space-y-4 hover:border-surface-border-light transition-all">
+      <div className="min-w-0 overflow-hidden bg-surface-card border border-surface-border rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col justify-between space-y-3.5 sm:space-y-4 hover:border-surface-border-light transition-all">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="font-sans text-xs font-semibold text-text-secondary tracking-wider">
@@ -117,11 +140,13 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
         </div>
 
         <div>
-          <div className="font-sans font-bold text-2xl lg:text-3xl text-amber-accent tracking-tight">
-            {formatCost(totalCostUsd)}
+          <div className="font-sans font-bold text-2xl sm:text-3xl text-amber-accent tracking-tight leading-none truncate" title={formatCost(totalCostUsd)}>
+            {formatCompactCost(totalCostUsd)}
           </div>
           <div className="text-xs text-text-secondary font-medium mt-1">
-            Subscription Equivalent
+            {unpricedSessionCount > 0
+              ? `Known models only · ${unpricedSessionCount} unavailable`
+              : 'Subscription Equivalent'}
           </div>
         </div>
 
@@ -131,7 +156,7 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
       </div>
 
       {/* 4. Active Sessions */}
-      <div className="bg-surface-card border border-surface-border rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col justify-between space-y-3.5 sm:space-y-4 hover:border-surface-border-light transition-all">
+      <div className="min-w-0 overflow-hidden bg-surface-card border border-surface-border rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col justify-between space-y-3.5 sm:space-y-4 hover:border-surface-border-light transition-all">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="font-sans text-xs font-semibold text-text-secondary tracking-wider">
