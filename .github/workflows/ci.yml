@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.12.0
+          node-version: 22.17.0
           cache: npm
           cache-dependency-path: |
             package-lock.json
@@ -54,4 +54,15 @@ jobs:
       - name: Run RLS and cloud contract checks
         env:
           TOKKIE_SECURITY_TEST_DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/postgres
-        run: ./supabase/run-security-tests.sh
+        run: |
+          set +e
+          output="$(./supabase/run-security-tests.sh 2>&1)"
+          status=$?
+          printf '%s\n' "$output"
+          if [ "$status" -ne 0 ]; then
+            output="${output//'%'/'%25'}"
+            output="${output//$'\r'/'%0D'}"
+            output="${output//$'\n'/'%0A'}"
+            echo "::error file=supabase/security-test.sql,title=PostgreSQL security contract::$output"
+            exit "$status"
+          fi
