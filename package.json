@@ -2,24 +2,41 @@
   "name": "tok-kie",
   "version": "1.0.0",
   "description": "A friendly, local-first token & cost tracker for AI coding agents (Claude Code, Codex, Antigravity) 🐰",
-  "main": "electron/dist/main.js",
+  "main": "electron/dist/electron/main.js",
   "author": "Jaewook Jung <stich9208@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": ">=22.12.0",
+    "npm": ">=10.9.0"
+  },
+  "packageManager": "npm@10.9.2",
   "scripts": {
-    "dev": "concurrently -k -p \"[{name}]\" -n \"Next,Electron\" -c \"cyan,magenta\" \"npm run next:dev\" \"npm run electron:dev\"",
-    "next:dev": "cd dashboard && npm run dev",
-    "next:build": "cd dashboard && npm run build",
+    "dev": "node scripts/dev.mjs",
+    "next:dev": "npm --prefix dashboard run dev",
+    "next:build": "npm --prefix dashboard run build",
+    "dashboard:install": "npm --prefix dashboard ci",
     "electron:compile": "tsc -p electron/tsconfig.json",
-    "electron:dev": "wait-on http://localhost:3030 && npm run electron:compile && electron electron/dist/main.js",
+    "electron:dev": "node scripts/electron-dev.mjs",
+    "typecheck": "tsc -p electron/tsconfig.json --noEmit && tsc -p dashboard/tsconfig.json --noEmit",
+    "lint": "npm --prefix dashboard run lint",
+    "test:fixtures": "node tests/fixtures/validate.mjs",
+    "test:unit": "npm run electron:compile && node --test electron/dist/electron/app/*.test.js electron/dist/electron/cloud/*.test.js electron/dist/electron/core/test/*.test.js electron/dist/electron/ipc/*.test.js",
+    "test": "npm run test:fixtures && npm run test:unit",
     "build": "npm run next:build && npm run electron:compile",
-    "dist": "npm run build && electron-builder"
+    "smoke": "node scripts/smoke.mjs",
+    "pack:dir": "npm run build && electron-builder --config electron-builder.yml --dir --publish never",
+    "dist:mac:arm64": "npm run build && electron-builder --config electron-builder.yml --mac --arm64 --publish never",
+    "dist:mac:x64": "npm run build && electron-builder --config electron-builder.yml --mac --x64 --publish never",
+    "dist:mac:universal": "npm run build && electron-builder --config electron-builder.yml --mac --universal --publish never",
+    "dist:win:x64": "npm run build && electron-builder --config electron-builder.yml --win --x64 --publish never",
+    "dist:win:arm64": "npm run build && electron-builder --config electron-builder.yml --win --arm64 --publish never",
+    "dist:win": "npm run dist:win:x64",
+    "dist": "npm run dist:mac:universal"
   },
   "devDependencies": {
-    "@types/node": "^20.11.0",
-    "concurrently": "^8.2.2",
-    "electron": "^29.1.0",
-    "electron-builder": "^24.13.3",
-    "typescript": "^5.3.3",
-    "wait-on": "^7.2.0"
+    "@types/node": "^24.10.0",
+    "electron": "43.4.1",
+    "electron-builder": "26.15.3",
+    "typescript": "^5.9.3"
   }
 }
