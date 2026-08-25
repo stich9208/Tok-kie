@@ -1,15 +1,10 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# Backward-compatible entry point for older installations. Tok-kie now runs
+# as an Electron desktop app; Windows users can run start_dashboard.ps1.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
 
-echo "🐰 Starting Tok-kie Web Dashboard..."
-cd "$SCRIPT_DIR/dashboard"
-
-if [ ! -d "node_modules" ]; then
-    echo "📦 Installing npm dependencies..."
-    npm install
-fi
-
-echo "🌐 Opening dashboard at http://localhost:3030..."
-npm run dev
+echo "🐰 Tok-kie Electron 앱을 시작합니다..."
+exec npm run dev

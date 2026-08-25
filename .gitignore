@@ -16,8 +16,14 @@ node_modules/
 dashboard/node_modules/
 dashboard/.next/
 dashboard/out/
+dashboard/tsconfig.tsbuildinfo
+*.tsbuildinfo
 .next/
 out/
+release/
+electron/dist/
+shared/*.js
+.serena/
 
 # Environment Variables & Secrets
 .env
@@ -46,3 +52,15 @@ Thumbs.db
 
 # Vercel Cache
 .vercel/
+
+# Packaging and signing artifacts
+*.dmg
+*.zip
+*.exe
+*.msi
+*.blockmap
+*.snap
+*.deb
+*.rpm
+*.p12
+*.pfx

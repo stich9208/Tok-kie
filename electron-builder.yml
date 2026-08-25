@@ -8,31 +8,45 @@ protocols:
       - tokkie
 
 directories:
-  output: dist
+  output: release
   buildResources: build
 
+asar: true
+npmRebuild: false
+artifactName: "${productName}-${version}-${os}-${arch}.${ext}"
+
 files:
-  - "electron/dist/**/*"
-  - "dashboard/.next/**/*"
-  - "dashboard/public/**/*"
-  - "collector/**/*"
+  - "electron/dist/electron/**/*.js"
+  - "!electron/dist/electron/**/*.test.js"
+  - "!electron/dist/electron/**/test{,/**/*}"
+  - "electron/dist/shared/**/*.js"
+  - "dashboard/out/**/*"
+  - "supabase/schema.sql"
   - "package.json"
 
 mac:
   category: public.app-category.developer-tools
+  hardenedRuntime: true
+  gatekeeperAssess: false
   target:
     - target: dmg
+      arch: universal
+    - target: zip
+      arch: universal
+
+win:
+  target:
+    - target: nsis
       arch:
-        - arm64
         - x64
     - target: zip
       arch:
-        - arm64
         - x64
-  hardenedRuntime: true
-  gatekeeperAssess: false
-  entitlements: build/entitlements.mac.plist
-  entitlementsInherit: build/entitlements.mac.plist
+  signAndEditExecutable: true
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
 
 dmg:
   contents:

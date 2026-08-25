@@ -1,123 +1,110 @@
 # Tok-kie 🐰
 
-A friendly, local-first dashboard to track token usage and estimated API costs from local AI coding agents (**Claude Code**, **OpenAI Codex**, and **Google Antigravity**).
+Tok-kie is a local-first Electron desktop app for tracking token usage and estimated API costs from local AI coding agents: **Claude Code**, **OpenAI Codex**, and **Google Antigravity**.
 
 [English](README.md) | [한국어](README.ko.md)
 
-[![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Python](https://img.shields.io/badge/Python-3.9+-yellow?logo=python)](https://python.org/)
+[![Electron](https://img.shields.io/badge/Electron-43-47848f?logo=electron)](https://www.electronjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 ---
 
-## Background
+## What it does
 
-I built **Tok-kie** because I use multiple AI coding agents daily across different MacBooks, and it was hard to answer basic questions:
-- *How many tokens did I burn across Claude Code and Codex today?*
-- *How much is this costing in API credits?*
-- *Which specific subtask or loop consumed 80% of the session's tokens?*
-- *Did my prompt finish properly, or did I interrupt it with `Ctrl+C`?*
+- **Multi-agent parsing**: Reads supported local agent logs and produces complete, repeatable source snapshots.
+- **Local-first storage**: Electron main owns the local SQLite database, migrations, source replacement, and offline queries.
+- **Desktop dashboard**: A static Next.js renderer is served inside the Electron app through a privileged application scheme.
+- **Timeline and interruptions**: Inspect prompts, tool steps, token totals, estimated cost, and interrupted sessions.
+- **Legacy migration**: Existing tracker data can be imported once with a read-only backup and an explicit unverified label.
+- **Optional cloud sync**: Sync approved usage data to a tenant-scoped Supabase project from the app.
 
-Tok-kie runs a tiny background watcher on your Mac that parses local log files as you code and renders everything in a clean Next.js dashboard.
+Electron main is the sole authority for filesystem access, SQLite, network sync, OAuth, secure storage, and external navigation. The renderer never receives local paths, database handles, or cloud secrets.
 
----
+## Quick start
 
-## Features
+Requirements: Node.js 22.12 or newer and npm 10 or newer. The packaged Electron app carries its own runtime; these versions apply to source installs and builds.
 
-- **Multi-Agent Log Parsing**:
-  - **Claude Code**: Parses `~/.claude/projects/*/*.jsonl` session files, extracts clean titles, separates tool outputs from human prompts, and filters out synthetic system messages.
-  - **OpenAI Codex**: Parses `~/.codex/state_5.sqlite` and rollout jsonl files, groups subagents under their parent conversations, and detects natural language questions from code snippets.
-  - **Google Antigravity**: Parses `transcript.jsonl` files and step hierarchies.
-- **macOS Menu Bar Desktop App**: Runs natively in your Mac menu bar tray (`🐰 Tok-kie`) with global hotkey (`Cmd+Shift+T`) and auto-managed collector daemon.
-- **Zero-Knowledge Mobile QR Pairing**: Instant 1-second pairing with your iPhone via QR code — no signups, $0 server cost, and direct client-to-DB sync.
-- **Interruption Detection**: Detects user cancellations (`[Request interrupted by user]`, `CANCELLED`) and marks sessions with an `Interrupted` badge so you can distinguish incomplete runs.
-- **Task Timeline View**: Click any conversation to inspect prompt-by-prompt token consumption, tool executions, and step receipts.
-- **Multi-Account Auto-Detection**: Automatically detects git repository configurations and user emails to separate and aggregate usage across multiple accounts without manual tagging.
-- **Zero Config Offline Mode**: Uses a local SQLite database by default. No cloud setup required.
-- **Optional Cloud Sync**: Can sync to a free Supabase instance so you can view your dashboard on mobile or other machines via Vercel.
-
----
-
-## Quick Start (Local Setup)
-
-### 1. Run as Native macOS Desktop App (Electron)
 ```bash
 git clone https://github.com/stich9208/Tok-kie.git
 cd Tok-kie
 
-npm install
+# macOS/Linux
+./install.sh
+# Windows PowerShell: .\install.ps1
 npm run dev
 ```
-* The persistent **Tok-kie 🐰** menu bar icon will appear in the macOS top bar, and the collector daemon will start automatically!
-* Press **`Cmd + Shift + T`** anywhere to toggle the dashboard window.
 
----
+`install.sh` installs the Node dependencies and verifies a production build. The development command launches the Electron app and its development renderer together. There is no separate collector process or standalone web-server mode.
 
-### 2. Run in Terminal & Web Browser
-```bash
-chmod +x install.sh start_dashboard.sh uninstall.sh
-./install.sh
-./start_dashboard.sh
-```
-Open **[http://localhost:3030](http://localhost:3030)** in your browser.
-
----
-
-## Optional: Free Cloud Deployment (Supabase + Vercel)
-
-If you want to view your token usage on your phone or from another laptop:
-
-1. **Create a free Supabase project**:
-   - Create a project on [supabase.com](https://supabase.com).
-   - In Supabase SQL Editor, run the script in `supabase/schema.sql`.
-   - Copy your `Project URL` and `anon key` from **Project Settings > API**.
-
-2. **Connect Supabase to Tok-kie**:
-   Run the interactive setup script:
-   ```bash
-   ./setup_supabase.sh
-   ```
-   *(Or simply click the **"Supabase 연동"** button inside the web dashboard to configure via UI)*
-
-3. **Deploy the dashboard to Vercel**:
-   - Push your repo to GitHub and import it on [Vercel](https://vercel.com).
-   - Set **Root Directory** to `dashboard`.
-   - Add environment variables:
-     - `NEXT_PUBLIC_SUPABASE_URL`: `https://your-id.supabase.co`
-     - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: `your-anon-key`
-   - Deploy.
-
----
-
-## CLI Commands
-
-You can interact with the background collector directly:
+To create a distributable desktop package:
 
 ```bash
-# Check collector status and active log paths
-python3 collector/main.py status
-
-# Force an immediate rescan of all agent logs
-python3 collector/main.py scan
-
-# Update device name
-python3 collector/main.py config --device "MacBook Pro 16"
+npm run build
+npm run dist
 ```
 
----
+`npm run dist` creates a universal macOS DMG/ZIP. Platform-specific commands are
+`npm run dist:mac:arm64`, `npm run dist:mac:x64`, and `npm run dist:win`.
+Windows packaging uses NSIS and ZIP targets. Release CI requires separate
+`MAC_CSC_LINK`/`MAC_CSC_KEY_PASSWORD` and
+`WIN_CSC_LINK`/`WIN_CSC_KEY_PASSWORD` secrets, plus Apple notarization
+credentials. It verifies codesign, Gatekeeper, notarization staples, and
+Authenticode before publishing. Local packages remain unsigned.
 
-## Supported Agents & Log Sources
+The historical `start_dashboard.sh` entry point remains as a compatibility wrapper and starts the Electron development flow.
 
-The collector extracts input/output tokens from local log files and calculates estimated costs based on standard API pricing for each model (Claude, GPT, Gemini, etc.):
+## Supabase cloud sync
 
-| Agent | Log Path | Notes |
+Cloud sync is optional. Enable anonymous sign-ins in the target Supabase
+project, open Tok-kie's cloud settings, and enter only the project URL and its
+publishable (or legacy anon) key. Main generates a short-lived 256-bit proof
+and returns one copyable SQL block containing the checked-in schema and only
+the proof's SHA-256 digest. Run that block in Supabase SQL Editor, then confirm
+once in the app before it expires.
+
+The raw proof, Auth access/refresh tokens, service-role keys, PATs, database
+passwords, and OAuth client secrets never cross renderer IPC. The refresh
+session is encrypted through the operating-system secure store. A distributor
+may additionally register the `tokkie://oauth/callback` management OAuth/PKCE
+flow and provide `TOKKIE_SUPABASE_OAUTH_CLIENT_ID`; manual digest setup remains
+the no-client-secret fallback.
+
+Mobile pairing additionally needs a deployed HTTPS copy of the static web
+viewer (`NEXT_PUBLIC_WEB_APP_URL`) configured with the exact same
+`NEXT_PUBLIC_SUPABASE_URL` and publishable/anon key. The permanent project key
+is never embedded in QR v2; the QR carries only routing data and a single-use
+claim that expires in five minutes. A paired web session persists and refreshes
+until the owner revokes it, and access still requires owner approval.
+
+## Supported sources
+
+| Agent | Local source | Notes |
 | :--- | :--- | :--- |
-| **Claude Code** | `~/.claude/projects/*/*.jsonl` | Captures prompts, tool results, tokens, and user interruptions |
-| **OpenAI Codex** | `~/.codex/state_5.sqlite`, `~/.codex/archived_sessions/*.jsonl` | Tracks conversation threads and spawned subagents |
-| **Google Antigravity** | `~/.gemini/antigravity/brain/*` | Captures full task execution trees and multi-step turns |
+| **Claude Code** | `~/.claude/projects/*/*.jsonl` | Prompts, tool results, tokens, and interruptions |
+| **OpenAI Codex** | `~/.codex/state_5.sqlite` | Conversations and subagent relationships |
+| **Google Antigravity** | `~/.gemini/antigravity/brain/*` | Transcript and task-step hierarchy |
 
----
+## Development commands
+
+```bash
+./install.sh  # install both locked dependency trees and verify a build
+npm run dev   # launch the Electron development app
+npm run build # build the static renderer and Electron main process
+npm run dist  # build a distributable package
+npm run smoke # local: static package/build checks only (never launches the app)
+```
+
+The root and `dashboard` applications have separate lockfiles. A clean setup
+installs both with `npm ci`; `install.sh` and `install.ps1` perform both steps.
+`start_dashboard.sh` and `start_dashboard.ps1` are compatibility entry points
+for `npm run dev`; there is no standalone web-server or Python collector.
+
+Pull requests run type checking, linting, dashboard/Electron builds, unit tests,
+and the Supabase PostgreSQL security contract in GitHub Actions.
+Launching the packaged binary for port-independence, deep-link and restart
+checks is explicitly opted in only on isolated CI/VM runners.
 
 ## License
 
