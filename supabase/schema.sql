@@ -264,13 +264,13 @@ begin
   if auth.uid() is null then raise exception 'authentication required'; end if;
   if coalesce(auth.jwt() ->> 'is_anonymous', 'false') <> 'true' then
     raise exception 'bootstrap requires a fresh anonymous data-plane session'; end if;
+  select * into v_token from public.owner_bootstrap_tokens where singleton for update;
+  if not found or v_token.consumed_at is not null or v_token.expires_at <= now()
+     or v_token.failed_attempts >= 5 then return; end if;
   if exists (select 1 from public.members where auth_user_id = auth.uid()) then
     raise exception 'auth user already belongs to an owner'; end if;
   if p_display_name is null or char_length(btrim(p_display_name)) not between 1 and 120 then
     raise exception 'invalid display name'; end if;
-  select * into v_token from public.owner_bootstrap_tokens where singleton for update;
-  if not found or v_token.consumed_at is not null or v_token.expires_at <= now()
-     or v_token.failed_attempts >= 5 then return; end if;
   if p_one_time_secret is null or v_token.secret_hash <>
      extensions.digest(convert_to(p_one_time_secret, 'UTF8'), 'sha256') then
     update public.owner_bootstrap_tokens set failed_attempts=least(failed_attempts+1,5)
