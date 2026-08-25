@@ -60,7 +60,10 @@ jobs:
           status=$?
           printf '%s\n' "$output"
           if [ "$status" -ne 0 ]; then
-            diagnostic="$(printf '%s\n' "$output" | tail -n 200)"
+            diagnostic="$(printf '%s\n' "$output" | sed -n '/ERROR:/,$p' | tail -n 40)"
+            if [ -z "$diagnostic" ]; then
+              diagnostic="$(printf '%s\n' "$output" | tail -n 20)"
+            fi
             diagnostic="${diagnostic//'%'/'%25'}"
             diagnostic="${diagnostic//$'\r'/'%0D'}"
             diagnostic="${diagnostic//$'\n'/'%0A'}"
