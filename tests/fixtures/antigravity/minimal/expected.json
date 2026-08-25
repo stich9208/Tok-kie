@@ -1,0 +1,7 @@
+{
+  "accepted": true,
+  "source_identity_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "sessions": [{ "native_session_id": "antigravity-minimal", "agent_type": "antigravity", "model_name": "gemini-3-flash", "title": "Create a status card.", "status": "completed", "is_interrupted": false }],
+  "steps": [{ "native_step_id": "turn:user:fallback:5fc3e7da10510e0e213e0bc17e023a2984640a7303f0d24b6cf2978c70493051", "step_index": 1, "source": "turn", "status": "completed", "metadata": { "tools": ["write_file (Create component)"], "tool_count": 1 } }],
+  "diagnostic_codes": []
+}

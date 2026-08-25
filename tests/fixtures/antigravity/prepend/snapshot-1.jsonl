@@ -1,0 +1,2 @@
+{"source":"user_explicit","timestamp":"2026-01-09T00:01:00.000Z","content":"<USER_REQUEST>Existing second request.</USER_REQUEST>"}
+{"source":"assistant","timestamp":"2026-01-09T00:01:01.000Z","content":"Second response.","prompt_tokens":4,"completion_tokens":2}

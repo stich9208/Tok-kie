@@ -1,0 +1,7 @@
+{
+  "accepted": true,
+  "source_identity_sha256": "a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+  "sessions": [{ "native_session_id": "claude-malformed", "agent_type": "claude_code", "status": "completed", "tokens": { "prompt": 3, "completion": 2, "total": 5 } }],
+  "steps": [{ "native_step_id": "turn:user:user-1", "step_index": 1, "tokens": { "prompt": 3, "completion": 2, "total": 5 } }],
+  "diagnostic_codes": ["malformed_record"]
+}

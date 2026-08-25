@@ -1,0 +1,7 @@
+{
+  "accepted": true,
+  "source_identity_sha256": "b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1",
+  "sessions": [{ "native_session_id": "codex-interrupted-1", "agent_type": "codex", "model_name": "gpt-5", "title": "Interrupted run", "status": "interrupted", "is_interrupted": true, "tokens": { "prompt": 14, "completion": 6, "total": 20 } }],
+  "steps": [{ "native_step_id": "thread:codex-interrupted-1", "step_index": 1, "source": "turn", "status": "interrupted", "is_interrupted": true, "tokens": { "prompt": 14, "completion": 6, "total": 20 } }],
+  "diagnostic_codes": []
+}

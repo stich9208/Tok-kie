@@ -1,0 +1,7 @@
+{
+  "accepted": true,
+  "source_identity_sha256": "a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4",
+  "sessions": [{ "native_session_id": "claude-interruption", "status": "interrupted", "is_interrupted": true, "tokens": { "prompt": 9, "completion": 1, "total": 10 } }],
+  "steps": [{ "native_step_id": "turn:user:user-1", "step_index": 1, "status": "interrupted", "is_interrupted": true }],
+  "diagnostic_codes": []
+}

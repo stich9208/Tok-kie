@@ -1,0 +1,2 @@
+{"source":"user_explicit","timestamp":"2026-01-07T00:00:00.000Z","content":"<USER_REQUEST>Create a status card.</USER_REQUEST><ADDITIONAL_METADATA>synthetic</ADDITIONAL_METADATA>"}
+{"source":"assistant","timestamp":"2026-01-07T00:00:01.000Z","content":"Created the status card.","tool_calls":[{"name":"write_file","args":{"toolSummary":"Create component","Cwd":"/fixture/project"}}]}

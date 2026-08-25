@@ -1,0 +1,9 @@
+{
+  "accepted": true,
+  "source_identity_sha256": "c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+  "snapshots": [
+    { "session_tokens": { "prompt": 6, "completion": 2, "total": 8 }, "native_step_ids": ["turn:user:fallback:9b51f96199e9675cd65fcd38f8b11d81b6970bfd1094bd1fa9ae1aa975765066"] },
+    { "session_tokens": { "prompt": 12, "completion": 3, "total": 15 }, "native_step_ids": ["turn:user:fallback:5bc17e77ccdb80012e349f572fe0c1ce87a878c6f91681ac0469a2763e0c1a7f", "turn:user:fallback:9b51f96199e9675cd65fcd38f8b11d81b6970bfd1094bd1fa9ae1aa975765066"] }
+  ],
+  "invariant": "fallback content identity preserves the existing Antigravity step across prepend"
+}

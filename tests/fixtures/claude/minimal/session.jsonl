@@ -1,0 +1,2 @@
+{"type":"user","uuid":"user-1","timestamp":"2026-01-02T03:04:05.000Z","cwd":"/fixture/project","message":{"content":"Add a health check."}}
+{"type":"assistant","uuid":"assistant-1","timestamp":"2026-01-02T03:04:06.000Z","message":{"model":"claude-sonnet-test","usage":{"input_tokens":12,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"output_tokens":5},"content":[{"type":"text","text":"Health check added."}]}}

@@ -1,0 +1,7 @@
+{
+  "accepted": true,
+  "source_identity_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "sessions": [{ "native_session_id": "claude-minimal", "agent_type": "claude_code", "model_name": "claude-sonnet-test", "title": "Add a health check.", "status": "completed", "is_interrupted": false, "tokens": { "prompt": 12, "completion": 5, "total": 17 }, "legacy_unverified": false }],
+  "steps": [{ "native_step_id": "turn:user:user-1", "step_index": 1, "source": "turn", "status": "completed", "is_interrupted": false, "tokens": { "prompt": 12, "completion": 5, "total": 17 } }],
+  "diagnostic_codes": []
+}

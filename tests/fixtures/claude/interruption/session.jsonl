@@ -1,0 +1,3 @@
+{"type":"user","uuid":"user-1","timestamp":"2026-01-06T00:00:00.000Z","message":{"content":"Start a long task."}}
+{"type":"assistant","uuid":"assistant-1","timestamp":"2026-01-06T00:00:01.000Z","message":{"model":"claude-sonnet-test","usage":{"input_tokens":9,"output_tokens":1},"content":[{"type":"text","text":"Starting."}]}}
+{"type":"user","uuid":"interrupt-1","timestamp":"2026-01-06T00:00:02.000Z","message":{"content":"[Request interrupted by user]"}}

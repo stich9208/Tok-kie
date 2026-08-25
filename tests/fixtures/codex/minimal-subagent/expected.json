@@ -1,0 +1,10 @@
+{
+  "accepted": true,
+  "source_identity_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "sessions": [{ "native_session_id": "codex-root-1", "agent_type": "codex", "model_name": "gpt-test", "title": "Implement parser", "status": "completed", "tokens": { "prompt": 108, "completion": 42, "total": 150 }, "metadata": { "subagent_count": 1 } }],
+  "steps": [
+    { "native_step_id": "thread:codex-root-1", "step_index": 1, "source": "turn", "tokens": { "prompt": 72, "completion": 28, "total": 100 } },
+    { "native_step_id": "thread:codex-child-1", "step_index": 2, "source": "subagent", "tokens": { "prompt": 36, "completion": 14, "total": 50 }, "metadata": { "subagent": { "parent_native_session_id": "codex-root-1", "nickname": "reviewer", "role": "review", "path": "/root/reviewer", "depth": 1 } } }
+  ],
+  "diagnostic_codes": []
+}

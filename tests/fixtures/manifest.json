@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "cases": [
+    { "id": "claude-minimal", "agent_type": "claude_code", "source_kind": "jsonl_file", "snapshots": ["claude/minimal/session.jsonl"], "expected": "claude/minimal/expected.json" },
+    { "id": "claude-malformed", "agent_type": "claude_code", "source_kind": "jsonl_file", "snapshots": ["claude/malformed/session.jsonl"], "expected": "claude/malformed/expected.json" },
+    { "id": "claude-append", "agent_type": "claude_code", "source_kind": "jsonl_file", "snapshots": ["claude/append/snapshot-1.jsonl", "claude/append/snapshot-2.jsonl"], "expected": "claude/append/expected.json" },
+    { "id": "claude-truncate", "agent_type": "claude_code", "source_kind": "jsonl_file", "snapshots": ["claude/truncate/snapshot-1.jsonl", "claude/truncate/snapshot-2.jsonl"], "expected": "claude/truncate/expected.json" },
+    { "id": "claude-interruption", "agent_type": "claude_code", "source_kind": "jsonl_file", "snapshots": ["claude/interruption/session.jsonl"], "expected": "claude/interruption/expected.json" },
+    { "id": "claude-prepend", "agent_type": "claude_code", "source_kind": "jsonl_file", "snapshots": ["claude/prepend/snapshot-1.jsonl", "claude/prepend/snapshot-2.jsonl"], "expected": "claude/prepend/expected.json" },
+    { "id": "codex-minimal-subagent", "agent_type": "codex", "source_kind": "sqlite_database", "snapshots": ["codex/minimal-subagent/state.sql"], "expected": "codex/minimal-subagent/expected.json" },
+    { "id": "codex-interruption", "agent_type": "codex", "source_kind": "sqlite_database", "snapshots": ["codex/interruption/state.sql"], "expected": "codex/interruption/expected.json" },
+    { "id": "antigravity-minimal", "agent_type": "antigravity", "source_kind": "jsonl_file", "snapshots": ["antigravity/minimal/transcript.jsonl"], "expected": "antigravity/minimal/expected.json" },
+    { "id": "antigravity-prepend", "agent_type": "antigravity", "source_kind": "jsonl_file", "snapshots": ["antigravity/prepend/snapshot-1.jsonl", "antigravity/prepend/snapshot-2.jsonl"], "expected": "antigravity/prepend/expected.json" }
+  ]
+}
